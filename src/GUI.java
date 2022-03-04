@@ -17,6 +17,10 @@ public class GUI extends JFrame {
   private JPanel panelBarcos,panelMiTablero,panelTableroPc,panelTableroPc2,base,enemigo;
   private Escucha escucha;
   private JButton ayuda,salir,tableroPc,quitarTablero;
+  private JButton [][] btBase;
+  private JButton [][] btEnemy;
+
+
 
   /**
    * Constructor of GUI class
@@ -40,10 +44,47 @@ public class GUI extends JFrame {
    * This method is used to set up the default JComponent Configuration,
    * create Listener and control Objects used for the GUI class
    */
+
+  public void llenarBase(){
+    int x=10,y=10;
+    btBase=new JButton[10][10];
+    for (int i=0;i<btBase.length;i++){
+      for (int j=0;j<btBase[i].length;j++){
+        btBase[i][j]=new JButton();
+        btBase[i][j].setBackground(Color.CYAN);
+        btBase[i][j].setBounds(x,y,15,15);
+        base.add(btBase[i][j],BorderLayout.CENTER);
+        x+=20;
+      }
+      x=10;
+      y+=20;
+    }
+  }
+  public void llenarEnemy(){
+    int x=10,y=10;
+    btEnemy=new JButton[10][10];
+    for (int i=0;i<btEnemy.length;i++){
+      for (int j=0;j<btEnemy[i].length;j++){
+        btEnemy[i][j]=new JButton();
+        btEnemy[i][j].setBackground(Color.CYAN);
+        btEnemy[i][j].setBounds(x,y,15,15);
+        enemigo.add(btEnemy[i][j],BorderLayout.CENTER);
+        x+=20;
+      }
+      x=10;
+      y+=20;
+    }
+  }
+
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
 
-
+    base=new JPanel();
+    base.setPreferredSize(new Dimension(400,360));
+    base.setBackground(new Color(51,51,255));
+    enemigo=new JPanel();
+    enemigo.setPreferredSize(new Dimension(400,360));
+    enemigo.setBackground(new Color(51,51,255));
     escucha =new Escucha();
 
     headerProject = new Header("Batalla Naval", Color.BLACK);
@@ -79,7 +120,7 @@ public class GUI extends JFrame {
     constraints.gridwidth=1;
     //constraints.gridheight=1;
     constraints.fill=GridBagConstraints.NONE;
-    constraints.anchor=GridBagConstraints.PAGE_START;
+    constraints.anchor=GridBagConstraints.CENTER;
     add(panelBarcos,constraints);
 
     tableroPc = new JButton("Mostrar Tablero");
@@ -108,6 +149,8 @@ public class GUI extends JFrame {
     constraints.gridwidth=1;
     constraints.fill=GridBagConstraints.NONE;
     constraints.anchor=GridBagConstraints.CENTER;
+    llenarBase();
+    panelMiTablero.add(base);
     add(panelMiTablero,constraints);
 
     panelTableroPc=new JPanel();
@@ -118,6 +161,8 @@ public class GUI extends JFrame {
     constraints.gridwidth=1;
     constraints.fill=GridBagConstraints.NONE;
     constraints.anchor=GridBagConstraints.CENTER;
+    llenarEnemy();
+    panelTableroPc.add(enemigo);
     add(panelTableroPc,constraints);
 
   }
