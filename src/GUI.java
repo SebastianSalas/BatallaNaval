@@ -2,8 +2,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * This class is used for ...
@@ -52,27 +51,27 @@ public class GUI extends JFrame {
       for (int j=0;j<btBase[i].length;j++){
         btBase[i][j]=new JButton();
         btBase[i][j].setBackground(Color.CYAN);
-        btBase[i][j].setBounds(x,y,15,15);
+        btBase[i][j].setBounds(x,y,35,33);
         base.add(btBase[i][j],BorderLayout.CENTER);
-        x+=20;
+        x+=35;
       }
       x=10;
-      y+=20;
+      y+=33;
     }
   }
   public void llenarEnemy(){
     int x=10,y=10;
     btEnemy=new JButton[10][10];
-    for (int i=0;i<btEnemy.length;i++){
-      for (int j=0;j<btEnemy[i].length;j++){
+    for (int i=0;i<10;i++){
+      for (int j=0;j<10;j++){
         btEnemy[i][j]=new JButton();
         btEnemy[i][j].setBackground(Color.CYAN);
-        btEnemy[i][j].setBounds(x,y,15,15);
-        enemigo.add(btEnemy[i][j],BorderLayout.CENTER);
-        x+=20;
+        btEnemy[i][j].setBounds(x,y,35,33);
+        enemigo.add(btEnemy[i][j],BorderLayout.SOUTH);
+        x+=35;
       }
       x=10;
-      y+=20;
+      y+=33;
     }
   }
 
@@ -80,10 +79,12 @@ public class GUI extends JFrame {
     this.getContentPane().setLayout(new GridBagLayout());
 
     base=new JPanel();
-    base.setPreferredSize(new Dimension(400,360));
+    base.setLayout(null);
+    base.setPreferredSize(new Dimension(380,360));
     base.setBackground(new Color(51,51,255));
     enemigo=new JPanel();
-    enemigo.setPreferredSize(new Dimension(400,360));
+    enemigo.setLayout(null);
+    enemigo.setPreferredSize(new Dimension(380,360));
     enemigo.setBackground(new Color(51,51,255));
     escucha =new Escucha();
 
@@ -204,3 +205,44 @@ public class GUI extends JFrame {
     }
   }
 }
+
+ class Escucha2 implements MouseListener{
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+
+  }
+}
+
+ class Escucha3 implements MouseMotionListener{
+
+   @Override
+   public void mouseDragged(MouseEvent e) {
+
+   }
+
+   @Override
+   public void mouseMoved(MouseEvent e) {
+
+   }
+ }
