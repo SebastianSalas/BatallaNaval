@@ -95,11 +95,11 @@ public class GUI extends JFrame {
 
     base=new JPanel();
     base.setLayout(null);
-    base.setPreferredSize(new Dimension(380,360));
+    base.setPreferredSize(new Dimension(370,350));
     base.setBackground(new Color(51,51,255));
     enemigo=new JPanel();
     enemigo.setLayout(null);
-    enemigo.setPreferredSize(new Dimension(380,360));
+    enemigo.setPreferredSize(new Dimension(370,350));
     enemigo.setBackground(new Color(51,51,255));
     escucha =new Escucha();
 
@@ -145,17 +145,8 @@ public class GUI extends JFrame {
     constraints.gridy=3;
     constraints.gridwidth=1;
     constraints.fill=GridBagConstraints.NONE;
-    constraints.anchor=GridBagConstraints.FIRST_LINE_START;
+    constraints.anchor=GridBagConstraints.LINE_END;
     this.add(tableroPc,constraints);
-
-    quitarTablero = new JButton("Ocultar Tablero");
-    quitarTablero.addActionListener(escucha);
-    constraints.gridx=2;
-    constraints.gridy=3;
-    constraints.gridwidth=1;
-    constraints.fill=GridBagConstraints.NONE;
-    constraints.anchor=GridBagConstraints.FIRST_LINE_END;
-    this.add(quitarTablero,constraints);
 
     panelMiTablero=new JPanel();
     panelMiTablero.setPreferredSize(new Dimension(440, 400));
@@ -210,17 +201,15 @@ public class GUI extends JFrame {
       }
 
       if(e.getSource()==tableroPc){
-        JOptionPane.showMessageDialog(null,"Mostrar");
-        panelTableroPc2=new JPanel();
-        panelTableroPc2.setPreferredSize(new Dimension(440, 448));
-        panelTableroPc2.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0),3,true),"MAPA",TitledBorder.CENTER,TitledBorder.TOP,new Font("Tahoma", 1, 15)));
-        constraints.gridx=1;
-        constraints.gridy=3;
-        constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.CENTER;
-        add(panelTableroPc2,constraints);
+        GUI_Enemy guiEnemy=new GUI_Enemy();
+        guiEnemy.setVisible(true);
       }
+
+      if(e.getSource()==quitarTablero){
+        GUI_Enemy guiEnemy=new GUI_Enemy();
+        guiEnemy.setVisible(false);
+      }
+
 
       for (int i=0;i<btBase.length;i++){
         for (int j=0;j<btBase[i].length;j++) {
@@ -249,8 +238,6 @@ public class GUI extends JFrame {
 
       }
       if (e.getSource()==btBase[1][1]){
-
-
 
       }
     }
