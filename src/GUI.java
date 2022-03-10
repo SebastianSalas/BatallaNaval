@@ -49,8 +49,8 @@ public class GUI extends JFrame {
   public void llenarBase(){
     int x=10,y=10;
     btBase=new JButton[10][10];
-    for (int i=0;i<btBase.length;i++){
-      for (int j=0;j<btBase[i].length;j++){
+    for (int j=0;j<btBase.length;j++){
+      for (int i=0;i<btBase[j].length;i++){
         btBase[i][j]=new JButton();
         btBase[i][j].setBackground(Color.CYAN);
         btBase[i][j].setBounds(x,y,35,33);
@@ -65,8 +65,8 @@ public class GUI extends JFrame {
   public void llenarEnemy(){
     int x=10,y=10;
     btEnemy=new JButton[10][10];
-    for (int i=0;i<10;i++){
-      for (int j=0;j<10;j++){
+    for (int j=0;j<btEnemy.length;j++){
+      for (int i=0;i<btEnemy[j].length;i++){
         btEnemy[i][j]=new JButton();
         btEnemy[i][j].setBackground(Color.CYAN);
         btEnemy[i][j].setBounds(x,y,35,33);
