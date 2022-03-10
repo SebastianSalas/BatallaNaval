@@ -12,6 +12,16 @@ import java.awt.event.*;
  */
 public class GUI extends JFrame {
   GridBagConstraints constraints = new GridBagConstraints();
+  private String MENSAJE_INICIO="                                                                  BIENVENIDOS A BATALLA NAVAL          \n"+"\n"+
+          "Este es un juego de estrategia, en el cual es objetivo es hundir todos los barcos de la flota enemiga.\n" +
+          "Tienes a tu dispocision 10 barcos, 1 portaaviones, 2 submarinos, 3 destructores y 4 fragatas los cuales\n" +
+          "ocupan 4, 3, 2 y 1 espacios respectivamente y los puedes ubicar tanto horizontales como verticales.\n" +
+          "Cuando dispares al enemigo e impactes en el agua aparecera una x, si tocas uno de los barcos de 2 o mas casillas\n" +
+          "solo se destruira esa parte del barco y tendras que seguir lanzando para hundirlo, si tocas una fragata la hundiras\n" +
+          "y si destruyes todas las partes de un barco este contara como hunidido, o sea sera eliminado.\n" +
+          "\n" +
+          "El objetivo es hundir todos los barcos enemigos antes de que el enemigo hunda los tuyos, cada que hagas un ataque\n" +
+          "el enemigo lo devolvera para hundir tus barcos";
   private Header headerProject;
   private JPanel panelBarcos,panelMiTablero,panelTableroPc,panelTableroPc2,base,enemigo;
   private Escucha escucha;
@@ -193,6 +203,10 @@ public class GUI extends JFrame {
     public void actionPerformed(ActionEvent e) {
       if (e.getSource()==salir){
         System.exit(0);
+      }
+
+      if (e.getSource()==ayuda){
+        JOptionPane.showMessageDialog(null,MENSAJE_INICIO);
       }
 
       if(e.getSource()==tableroPc){
