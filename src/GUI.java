@@ -64,7 +64,7 @@ public class GUI extends JFrame {
         btBase[i][j]=new JButton();
         btBase[i][j].setBackground(Color.CYAN);
         btBase[i][j].setBounds(x,y,35,33);
-        btBase[i][j].addActionListener(escucha);
+        btBase[i][j].addMouseListener(escuchaMouseListener);
         base.add(btBase[i][j],BorderLayout.CENTER);
         x+=35;
       }
@@ -102,6 +102,7 @@ public class GUI extends JFrame {
     enemigo.setPreferredSize(new Dimension(370,350));
     enemigo.setBackground(new Color(51,51,255));
     escucha =new Escucha();
+    escuchaMouseListener=new Escucha2();
 
     headerProject = new Header("Batalla Naval", Color.BLACK);
     constraints.gridx=0;
@@ -234,8 +235,6 @@ public class GUI extends JFrame {
                 }
               }
             }
-
-
       }
       if (e.getSource()==btBase[1][1]){
 
@@ -246,36 +245,66 @@ public class GUI extends JFrame {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      if (e.getSource() == btBase[0][0]){
-        System.out.println("Sisas");
 
-      }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-      if (e.getSource() == btBase[0][0]){
-        System.out.println("Sisas P");
-      }
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      if (e.getSource() == btBase[0][0]){
-        System.out.println("Sisas R");
-      }
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-      if (e.getSource() == btBase[0][0]){
-        System.out.println("Sisas e");
+      for (int i=0;i<btBase.length;i++){
+        for (int j=0;j<btBase[i].length;j++) {
+          if(e.getSource()==btBase[i][j]){
+            image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+            btBase[i][j].setIcon(image);
+            if(btBase[i][j]==btBase[i][j]){
+              int desfase = 10 - (i+1);
+              int counter=0;
+              System.out.println("desfase "+desfase);
+              if (desfase!=10){
+                while (desfase<10){
+                  counter++;
+                  desfase++;
+                }
+                j++;
+                btBase[counter-1][j].setIcon(image);
+              }
+            }
+          }
+        }
       }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+      for (int i=0;i<btBase.length;i++){
+        for (int j=0;j<btBase[i].length;j++) {
+          if(e.getSource()==btBase[i][j]){
+            btBase[i][j].setIcon(null);
+            if(btBase[i][j]==btBase[i][j]){
+              int desfase = 10 - (i+1);
+              int counter=0;
+              System.out.println("desfase "+desfase);
+              if (desfase!=10){
+                while (desfase<10){
+                  counter++;
+                  desfase++;
+                }
+                j++;
+                btBase[counter-1][j].setIcon(null);
+              }
+            }
+          }
+        }
+      }
     }
   }
 
