@@ -15,9 +15,11 @@ public class GUI extends JFrame {
   private Header headerProject;
   private JPanel panelBarcos,panelMiTablero,panelTableroPc,panelTableroPc2,base,enemigo;
   private Escucha escucha;
+  private Escucha2 escuchaMouseListener;
   private JButton ayuda,salir,tableroPc,quitarTablero;
   private JButton [][] btBase;
   private JButton [][] btEnemy;
+  private ImageIcon image;
 
 
 
@@ -52,6 +54,7 @@ public class GUI extends JFrame {
         btBase[i][j]=new JButton();
         btBase[i][j].setBackground(Color.CYAN);
         btBase[i][j].setBounds(x,y,35,33);
+        btBase[i][j].addActionListener(escucha);
         base.add(btBase[i][j],BorderLayout.CENTER);
         x+=35;
       }
@@ -77,6 +80,8 @@ public class GUI extends JFrame {
 
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
+
+
 
     base=new JPanel();
     base.setLayout(null);
@@ -202,47 +207,80 @@ public class GUI extends JFrame {
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelTableroPc2,constraints);
       }
+      if (e.getSource()==btBase[1][1]){
+        image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+        btBase[1][1].setIcon(image);
+        for (int i=0;i<btBase.length;i++){
+          for (int j=0;j<btBase[i].length;j++){
+            if(btBase[1][1]==btBase[i][j]){
+              int desfase = 10 - (i+1);
+              int counter=0;
+              System.out.println("desfase "+desfase);
+              if (desfase!=10){
+                while (desfase<10){
+                  counter++;
+                  desfase++;
+                }
+                j++;
+                System.out.println("contador  "+counter);
+                System.out.println("y  "+j);
+                btBase[counter-1][j].setIcon(image);
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+  private class Escucha2 implements MouseListener{
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+      if (e.getSource() == btBase[0][0]){
+        System.out.println("Sisas");
+
+      }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+      if (e.getSource() == btBase[0][0]){
+        System.out.println("Sisas P");
+      }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+      if (e.getSource() == btBase[0][0]){
+        System.out.println("Sisas R");
+      }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+      if (e.getSource() == btBase[0][0]){
+        System.out.println("Sisas e");
+      }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+  }
+
+  private class Escucha3 implements MouseMotionListener{
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
   }
 }
 
- class Escucha2 implements MouseListener{
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseReleased(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-
-  }
-}
-
- class Escucha3 implements MouseMotionListener{
-
-   @Override
-   public void mouseDragged(MouseEvent e) {
-
-   }
-
-   @Override
-   public void mouseMoved(MouseEvent e) {
-
-   }
- }
