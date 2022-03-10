@@ -207,28 +207,36 @@ public class GUI extends JFrame {
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelTableroPc2,constraints);
       }
-      if (e.getSource()==btBase[1][1]){
-        image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-        btBase[1][1].setIcon(image);
-        for (int i=0;i<btBase.length;i++){
-          for (int j=0;j<btBase[i].length;j++){
-            if(btBase[1][1]==btBase[i][j]){
-              int desfase = 10 - (i+1);
-              int counter=0;
-              System.out.println("desfase "+desfase);
-              if (desfase!=10){
-                while (desfase<10){
-                  counter++;
-                  desfase++;
+
+      for (int i=0;i<btBase.length;i++){
+        for (int j=0;j<btBase[i].length;j++) {
+          if(e.getSource()==btBase[i][j]){
+            System.out.println("x = "+i+" y = "+j);
+            image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+            btBase[i][j].setIcon(image);
+                if(btBase[i][j]==btBase[i][j]){
+                  int desfase = 10 - (i+1);
+                  int counter=0;
+                  System.out.println("desfase "+desfase);
+                  if (desfase!=10){
+                    while (desfase<10){
+                      counter++;
+                      desfase++;
+                    }
+                    j++;
+                    System.out.println("contador  "+counter);
+                    System.out.println("y  "+j);
+                    btBase[counter-1][j].setIcon(image);
+                  }
                 }
-                j++;
-                System.out.println("contador  "+counter);
-                System.out.println("y  "+j);
-                btBase[counter-1][j].setIcon(image);
               }
             }
-          }
-        }
+
+
+      }
+      if (e.getSource()==btBase[1][1]){
+
+
 
       }
     }
