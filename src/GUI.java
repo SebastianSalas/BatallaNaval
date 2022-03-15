@@ -7,21 +7,26 @@ import java.util.ArrayList;
 
 /**
  * This class is used for ...
+ *
  * @author Jhon Alexander Valencia Hilamo jhon.hilamo@correounivalle.edu.co
  * @author Janiert Sebastian Salas Castillo janiert.salas@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
 public class GUI extends JFrame {
   GridBagConstraints constraints = new GridBagConstraints();
-  private String MENSAJE_INICIO = "                                                                  BIENVENIDOS A BATALLA NAVAL          \n" + "\n" +
+  private String MENSAJE_INICIO = "                                                                  BIENVENIDOS A " +
+          "BATALLA NAVAL          \n" + "\n" +
           "Este es un juego de estrategia, en el cual es objetivo es hundir todos los barcos de la flota enemiga.\n" +
           "Tienes a tu dispocision 10 barcos, 1 portaaviones, 2 submarinos, 3 destructores y 4 fragatas los cuales\n" +
           "ocupan 4, 3, 2 y 1 espacios respectivamente y los puedes ubicar tanto horizontales como verticales.\n" +
-          "Cuando dispares al enemigo e impactes en el agua aparecera una x, si tocas uno de los barcos de 2 o mas casillas\n" +
-          "solo se destruira esa parte del barco y tendras que seguir lanzando para hundirlo, si tocas una fragata la hundiras\n" +
+          "Cuando dispares al enemigo e impactes en el agua aparecera una x, si tocas uno de los barcos de 2 o mas " +
+          "casillas\n" +
+          "solo se destruira esa parte del barco y tendras que seguir lanzando para hundirlo, si tocas una fragata la" +
+          " hundiras\n" +
           "y si destruyes todas las partes de un barco este contara como hunidido, o sea sera eliminado.\n" +
           "\n" +
-          "El objetivo es hundir todos los barcos enemigos antes de que el enemigo hunda los tuyos, cada que hagas un ataque\n" +
+          "El objetivo es hundir todos los barcos enemigos antes de que el enemigo hunda los tuyos, cada que hagas un" +
+          " ataque\n" +
           "el enemigo lo devolvera para hundir tus barcos";
   private Header headerProject;
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, panelTableroPc2, base, enemigo;
@@ -31,9 +36,9 @@ public class GUI extends JFrame {
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
-  public static Integer barco = 3;
+  public static Integer barco = 4;
   public static Boolean flag = true;
-  private ArrayList<JButton> btActivos= new ArrayList<JButton>();
+  private ArrayList<JButton> btActivos = new ArrayList<JButton>();
 
 
   /**
@@ -133,7 +138,8 @@ public class GUI extends JFrame {
 
     panelBarcos = new JPanel();
     panelBarcos.setPreferredSize(new Dimension(165, 315));
-    panelBarcos.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Mis Barcos", TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 14)));
+    panelBarcos.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Mis Barcos",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 14)));
     constraints.gridx = 0;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -153,7 +159,8 @@ public class GUI extends JFrame {
 
     panelMiTablero = new JPanel();
     panelMiTablero.setPreferredSize(new Dimension(440, 400));
-    panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), "BASE", TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15)));
+    panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), "BASE",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15)));
     constraints.gridx = 1;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -165,7 +172,8 @@ public class GUI extends JFrame {
 
     panelTableroPc = new JPanel();
     panelTableroPc.setPreferredSize(new Dimension(440, 400));
-    panelTableroPc.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), "MAPA", TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15)));
+    panelTableroPc.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), "MAPA",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15)));
     constraints.gridx = 2;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -189,9 +197,13 @@ public class GUI extends JFrame {
     });
   }
 
-  public int cambiarTamBarco(){
+  public int cambiarTamBarco() {
     barco--;
-    return  barco;
+    return barco;
+  }
+
+  public boolean validarSiTieneBarco(){
+    return true;
   }
 
 
@@ -232,41 +244,77 @@ public class GUI extends JFrame {
       for (int h = 0; h < barco; h++) {
         for (int i = 0; i < btBase.length; i++) {
           for (int j = 0; j < btBase[i].length; j++) {
-            if (e.getSource() == btBase[i][j]) {
-              j++;
-              if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][h + j])) {
-                tieneBarco = true;
-              } else {
+            if (j < (10 - barco) + 1) {
+              if (e.getSource() == btBase[i][j]) {
 
-                tieneBarco = false;
-                //cambiarTamBarco();
+                j++;
+                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][h + j])) {
+                  tieneBarco = true;
+                  System.out.println(tieneBarco);
+                } else {
+                  System.out.println("la chimba q entre");
+                  tieneBarco = false;
+                  //cambiarTamBarco();
+                }
+              }
+            }
+            if (i < (10 - barco) + 1) {
+              if (e.getSource() == btBase[i][j]) {
+                i++;
+                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[(i + h) - 1][j])) {
+                  tieneBarco = true;
+                  System.out.println(tieneBarco);
+                } else {
+                  System.out.println("la chimba q entre2");
+                  tieneBarco = false;
+                }
               }
             }
           }
         }
       }
 
-      if(tieneBarco==false){
-      for (int h = 0; h < barco; h++) {
-        for (int i = 0; i < btBase.length; i++) {
-          for (int j = 0; j < btBase[i].length; j++) {
+      if (tieneBarco == false) {
+        cambiarTamBarco();
+        for (int h = 0; h < barco; h++) {
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+                if (j < (10 - barco)) {
+                  if (e.getSource() == btBase[i][j]) {
+                    System.out.println("Entró 1");
+                    btActivos.add(btBase[i][j]);
+                    System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
+                    j++;
+                    //System.out.println("y  " + h + j);
+                    btBase[i][(h + j) - 1].setIcon(image);
+                    btActivos.add(btBase[i][(h + j)]);
+                  }
+                } else {
+                  if (i < (10 - barco) + 1) {
+                    if (e.getSource() == btBase[i][j]) {
+                      System.out.println("Entró 2");
+                      System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
+                      //System.out.println("x = " + i + " y = " + j);
+                      btActivos.add(btBase[i][j]);
+                      i++;
+                      //System.out.println("y  " + h + j);
+                      btActivos.add(btBase[(i + h)][j]);
+                    }
+                  } else {
+                    if (e.getSource() == btBase[i][j]) {
+                      btActivos.add(btBase[i][j]);
 
-              if(j<=10-barco){
-                if (e.getSource() == btBase[i][j]) {
-                  btActivos.add(btBase[i][j]);
-                  //System.out.println("x = " + i + " y = " + j);
-                  image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                  btBase[i][j].setIcon(image);
-                  j++;
-                  //System.out.println("y  " + h + j);
-                  btBase[i][h + j].setIcon(image);
-                  btActivos.add(btBase[i][h+j]);
+
+                      //System.out.println("x  " + (i - h));
+                      btBase[i - h][j].setIcon(image);
+                      btActivos.add(btBase[(i - h)-1][j]);
+                    }
+                  }
                 }
-              }
+            }
           }
         }
-      }
-      }else{
+      } else {
         JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
       }
 
@@ -284,27 +332,46 @@ public class GUI extends JFrame {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-      System.out.println(barco);
-        for (int h = 0; h < barco; h++) {
-          for (int i = 0; i < btBase.length; i++) {
-            for (int j = 0; j < btBase[i].length; j++) {
-                if (!(btActivos.contains(btBase[i][j]))){
-                  if(j<10-barco){
-                    if (e.getSource() == btBase[i][j]) {
-                      //System.out.println("x = " + i + " y = " + j);
-                      image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                      btBase[i][j].setIcon(image);
-                      j++;
-                      //System.out.println("y  " + h + j);
-                      btBase[i][h + j].setIcon(image);
-                    }
-                  }
-                }else{
+      for (int h = 0; h < barco; h++) {
+        for (int i = 0; i < btBase.length; i++) {
+          for (int j = 0; j < btBase[i].length; j++) {
+            if (!(btActivos.contains(btBase[i][j]))) {
+              if (j < (10 - barco) + 1) {
+                if (e.getSource() == btBase[i][j]) {
+                  //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco) + 1));
+                  //System.out.println("x = " + i + " y = " + j);
+                  image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                  btBase[i][j].setIcon(image);
+                  j++;
+                  //System.out.println("y  " + h + j);
+                  btBase[i][(h + j) - 1].setIcon(image);
                 }
+              } else {
+                if (i < (10 - barco) + 1) {
+                  if (e.getSource() == btBase[i][j]) {
+                    //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
+                    //System.out.println("x = " + i + " y = " + j);
+                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    btBase[i][j].setIcon(image);
+                    i++;
+                    //System.out.println("y  " + h + j);
+                    btBase[(i + h) - 1][j].setIcon(image);
+                  }
+                } else {
+                  if (e.getSource() == btBase[i][j]) {
+                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    btBase[i][j].setIcon(image);
+
+                    //System.out.println("x  " + (i - h));
+                    btBase[i - h][j].setIcon(image);
+                  }
+                }
+              }
             }
           }
         }
-      
+      }
+
 
     }
 
@@ -316,24 +383,46 @@ public class GUI extends JFrame {
         for (int i = 0; i < btBase.length; i++) {
           for (int j = 0; j < btBase[i].length; j++) {
 
-            if (!(btActivos.contains(btBase[i][j]))){
-              if(j<10-barco){
+            if (!(btActivos.contains(btBase[i][j]))) {
+              if (j < (10 - barco) + 1) {
                 if (e.getSource() == btBase[i][j]) {
                   //System.out.println("x = " + i + " y = " + j);
                   image = new ImageIcon(getClass().getResource("/resources/granada.png"));
                   btBase[i][j].setIcon(null);
                   j++;
                   //System.out.println("y  " + h + j);
-                  btBase[i][h + j].setIcon(null);
+                  //System.out.println("h = " + h +"y = "+ (h+j));
+                  btBase[i][(h + j) - 1].setIcon(null);
+                } else {
+
+                }
+              } else {
+                if (i < (10 - barco) + 1) {
+                  //System.out.println("x " + i + " barquini "+((10-barco)+1));
+                  if (e.getSource() == btBase[i][j]) {
+                    //System.out.println("x = " + i + " y = " + j);
+                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    btBase[i][j].setIcon(null);
+                    i++;
+                    //System.out.println("y  " + h + j);
+                    btBase[(i + h) - 1][j].setIcon(null);
+                  }
+                } else {
+                  if (e.getSource() == btBase[i][j]) {
+                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    btBase[i][j].setIcon(null);
+
+                    //System.out.println("x  " + (i - h));
+                    btBase[i - h][j].setIcon(null);
+                  }
                 }
               }
-            }else{
             }
           }
         }
       }
-      for (JButton bt:
-           btActivos) {
+      for (JButton bt :
+              btActivos) {
         image = new ImageIcon(getClass().getResource("/resources/granada.png"));
         bt.setIcon(image);
       }
