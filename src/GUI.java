@@ -36,8 +36,10 @@ public class GUI extends JFrame {
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
-  public static Integer barco = 4;
+  public static int barco,por=1,sub=2,des=3,fra=4;
   public static Boolean flag = true;
+  private int barcos=10;
+  private boolean p,s,d,f;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
 
 
@@ -46,7 +48,8 @@ public class GUI extends JFrame {
    */
   public GUI() {
     initGUI();
-
+    barco=3;
+    p=true;
     //Default JFrame configuration
     this.setTitle("The Title app");
     //this.setPreferredSize(new Dimension(1095,528));
@@ -197,8 +200,44 @@ public class GUI extends JFrame {
     });
   }
 
-  public int cambiarTamBarco() {
-    barco--;
+  public int cambiarTamBarco(int numero) {
+
+    if(p==true){
+
+      this.barco=numero-1;
+
+      p=false;
+      s=true;
+
+    }else{
+      if(s==true&&sub!=0){
+        sub--;
+
+        if(sub==0){
+          this.barco=numero-1;
+          s=false;
+          d=true;
+        }
+
+      }else{
+        if(d==true&&des!=0){
+          des--;
+          if(des==0){
+            this.barco=numero-1;
+            d=false;
+            f=true;
+          }
+        }else{
+          if(f==true&&fra!=0){
+            fra--;
+            if(fra==0){
+              this.barco=numero-1;
+              f=false;
+            }
+          }
+        }
+      }
+    }
     return barco;
   }
 
@@ -236,77 +275,107 @@ public class GUI extends JFrame {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      boolean tieneBarco = false;
-      for (int h = 0; h < barco; h++) {
-        for (int i = 0; i < btBase.length; i++) {
-          for (int j = 0; j < btBase[i].length; j++) {
-            if (j < (10 - barco)) {
-              System.out.println("x1 = " + i + " y1 = " + j + " borde1 = " + ((10 - barco)+1));
-              if (e.getSource() == btBase[i][j]) {
-                j++;
-                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][(h + j)-1])) {
-                  tieneBarco = true;
-                } else {
-                  tieneBarco = false;
-                }
-              }
-            }
-            if (i < (10 - barco)) {
-              System.out.println(barco);
-              System.out.println("x2 = " + i + " y2 = " + j + " borde2 = " + ((10 - barco)));
-              if (e.getSource() == btBase[i][j]) {
-                i++;
-                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[(i + h) - 1][j])) {
-                  tieneBarco = true;
-                } else {
-                  tieneBarco = false;
-                }
-              }
-            }
-          }
-        }
-      }
+      if(e.getButton()==1){
 
-      if (tieneBarco == false) {
-        cambiarTamBarco();
+        boolean tieneBarco = false;
+
         for (int h = 0; h < barco; h++) {
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
-                if (j < (10 - barco)) {
-                  if (e.getSource() == btBase[i][j]) {
-                    //System.out.println("Entró 1");
-                    btActivos.add(btBase[i][j]);
-                    //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
-                    j++;
-                    //System.out.println("y  " + h + j);
-                    btActivos.add(btBase[i][(h + j)]);
-                  }
-                } else {
-                  if (i < (10 - barco) + 1) {
-                    if (e.getSource() == btBase[i][j]) {
-                      //System.out.println("Entró 2");
-                      //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
-                      //System.out.println("x = " + i + " y = " + j);
-                      btActivos.add(btBase[i][j]);
-                      i++;
-                      //System.out.println("y  " + h + j);
-                      btActivos.add(btBase[(i + h)][j]);
-                    }
+              if (j < (10 - barco)) {
+                System.out.println("x1 = " + i + " y1 = " + j + " borde1 = " + ((10 - barco)+1));
+                if (e.getSource() == btBase[i][j]) {
+                  j++;
+                  if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][(h + j)-1])) {
+                    tieneBarco = true;
                   } else {
-                    if (e.getSource() == btBase[i][j]) {
-                      btActivos.add(btBase[i][j]);
-                      //System.out.println("x  " + (i - h));
-                      btActivos.add(btBase[(i - h)-1][j]);
-                    }
+                    tieneBarco = false;
                   }
                 }
+              }
+              if (i < (10 - barco)) {
+                System.out.println(barco);
+                System.out.println("x2 = " + i + " y2 = " + j + " borde2 = " + ((10 - barco)));
+                if (e.getSource() == btBase[i][j]) {
+                  i++;
+                  if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[(i + h) - 1][j])) {
+                    tieneBarco = true;
+                  } else {
+                    tieneBarco = false;
+                  }
+                }
+              }
             }
           }
         }
-      } else {
-        JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
-      }
 
+        if (tieneBarco == false) {
+
+          if(barco ==0){
+            for (int h = 0; h < 1; h++) {
+              for (int i = 0; i < btBase.length; i++) {
+                for (int j = 0; j < btBase[i].length; j++) {
+                  if (!(btActivos.contains(btBase[i][j]))) {
+                    if (j < 10) {
+                      if (e.getSource() == btBase[i][j]) {
+                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                        btActivos.add(btBase[i][j]);
+                        btBase[i][j].setIcon(image);
+
+                      }
+                    } else {
+
+                    }
+                  } else {
+                  }
+                }
+              }
+            }
+            cambiarTamBarco(barco);
+
+          }else{
+            for (int h = 0; h < barco; h++) {
+              for (int i = 0; i < btBase.length; i++) {
+                for (int j = 0; j < btBase[i].length; j++) {
+                  if (j < (10 - barco)) {
+                    if (e.getSource() == btBase[i][j]) {
+                      //System.out.println("Entró 1");
+                      btActivos.add(btBase[i][j]);
+                      //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
+                      j++;
+                      //System.out.println("y  " + h + j);
+                      btActivos.add(btBase[i][(h + j)]);
+                    }
+                  } else {
+                    if (i < (10 - barco) + 1) {
+                      if (e.getSource() == btBase[i][j]) {
+                        //System.out.println("Entró 2");
+                        //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
+                        //System.out.println("x = " + i + " y = " + j);
+                        btActivos.add(btBase[i][j]);
+                        i++;
+                        //System.out.println("y  " + h + j);
+                        btActivos.add(btBase[(i + h)][j]);
+                      }
+                    } else {
+                      if (e.getSource() == btBase[i][j]) {
+                        btActivos.add(btBase[i][j]);
+                        //System.out.println("x  " + (i - h));
+                        btActivos.add(btBase[(i - h)-1][j]);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            cambiarTamBarco(barco);
+          }
+          }else {
+          JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
+        }
+      }else {
+        System.out.println("xd");
+      }
     }
 
     @Override
@@ -321,38 +390,55 @@ public class GUI extends JFrame {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-      for (int h = 0; h < barco; h++) {
-        for (int i = 0; i < btBase.length; i++) {
-          for (int j = 0; j < btBase[i].length; j++) {
-            if (!(btActivos.contains(btBase[i][j]))) {
-              if (j < (10 - barco) + 1) {
-                if (e.getSource() == btBase[i][j]) {
-                  //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco) + 1));
-                  //System.out.println("x = " + i + " y = " + j);
-                  image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                  btBase[i][j].setIcon(image);
-                  j++;
-                  //System.out.println("y  " + h + j);
-                  btBase[i][(h + j) - 1].setIcon(image);
-                }
-              } else {
-                if (i < (10 - barco) + 1) {
+
+      if(barco==0){
+        for (int h = 0; h < 1; h++) {
+
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+              if (!(btActivos.contains(btBase[i][j]))) {
+                if (j < 10) {
                   if (e.getSource() == btBase[i][j]) {
-                    //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
-                    //System.out.println("x = " + i + " y = " + j);
-                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                     btBase[i][j].setIcon(image);
-                    i++;
-                    //System.out.println("y  " + h + j);
-                    btBase[(i + h) - 1][j].setIcon(image);
                   }
                 } else {
-                  if (e.getSource() == btBase[i][j]) {
-                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                    btBase[i][j].setIcon(image);
 
-                    //System.out.println("x  " + (i - h));
-                    btBase[i - h][j].setIcon(image);
+                }
+              } else {
+              }
+            }
+          }
+        }
+      }else{
+        for (int h = 0; h < barco; h++) {
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+              if (!(btActivos.contains(btBase[i][j]))) {
+                if (j < (10 - barco) + 1) {
+                  if (e.getSource() == btBase[i][j]) {
+                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                    btBase[i][j].setIcon(image);
+                    j++;
+                    btBase[i][(h + j) - 1].setIcon(image);
+                  }
+                } else {
+                  if (i < (10 - barco) + 1) {
+                    if (e.getSource() == btBase[i][j]) {
+                      image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                      btBase[i][j].setIcon(image);
+                      i++;
+                      //System.out.println("y  " + h + j);
+                      btBase[(i + h) - 1][j].setIcon(image);
+                    }
+                  } else {
+                    if (e.getSource() == btBase[i][j]) {
+                      image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                      btBase[i][j].setIcon(image);
+
+                      //System.out.println("x  " + (i - h));
+                      btBase[i - h][j].setIcon(image);
+                    }
                   }
                 }
               }
@@ -360,6 +446,7 @@ public class GUI extends JFrame {
           }
         }
       }
+
 
 
     }
@@ -367,42 +454,61 @@ public class GUI extends JFrame {
 
     @Override
     public void mouseExited(MouseEvent e) {
-
-      for (int h = 0; h < barco; h++) {
-        for (int i = 0; i < btBase.length; i++) {
-          for (int j = 0; j < btBase[i].length; j++) {
-
-            if (!(btActivos.contains(btBase[i][j]))) {
-              if (j < (10 - barco) + 1) {
+      if(barco==0){
+        for (int h = 0; h < 1; h++) {
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+              if (j < 10 - barco) {
                 if (e.getSource() == btBase[i][j]) {
-                  //System.out.println("x = " + i + " y = " + j);
-                  image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                  btBase[i][j].setIcon(null);
-                  j++;
-                  //System.out.println("y  " + h + j);
-                  //System.out.println("h = " + h +"y = "+ (h+j));
-                  btBase[i][(h + j) - 1].setIcon(null);
-                } else {
+                  if (btBase[i][j].isEnabled() == true) {
+                    btBase[i][j].setIcon(null);
+                  }
 
                 }
               } else {
-                if (i < (10 - barco) + 1) {
-                  //System.out.println("x " + i + " barquini "+((10-barco)+1));
+
+              }
+
+            }
+          }
+        }
+      }else{
+        for (int h = 0; h < barco; h++) {
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+
+              if (!(btActivos.contains(btBase[i][j]))) {
+                if (j < (10 - barco) + 1) {
                   if (e.getSource() == btBase[i][j]) {
                     //System.out.println("x = " + i + " y = " + j);
-                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                     btBase[i][j].setIcon(null);
-                    i++;
+                    j++;
                     //System.out.println("y  " + h + j);
-                    btBase[(i + h) - 1][j].setIcon(null);
+                    //System.out.println("h = " + h +"y = "+ (h+j));
+                    btBase[i][(h + j) - 1].setIcon(null);
+                  } else {
+
                   }
                 } else {
-                  if (e.getSource() == btBase[i][j]) {
-                    image = new ImageIcon(getClass().getResource("/resources/granada.png"));
-                    btBase[i][j].setIcon(null);
+                  if (i < (10 - barco) + 1) {
+                    //System.out.println("x " + i + " barquini "+((10-barco)+1));
+                    if (e.getSource() == btBase[i][j]) {
+                      //System.out.println("x = " + i + " y = " + j);
+                      image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                      btBase[i][j].setIcon(null);
+                      i++;
+                      //System.out.println("y  " + h + j);
+                      btBase[(i + h) - 1][j].setIcon(null);
+                    }
+                  } else {
+                    if (e.getSource() == btBase[i][j]) {
+                      image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                      btBase[i][j].setIcon(null);
 
-                    //System.out.println("x  " + (i - h));
-                    btBase[i - h][j].setIcon(null);
+                      //System.out.println("x  " + (i - h));
+                      btBase[i - h][j].setIcon(null);
+                    }
                   }
                 }
               }
@@ -410,9 +516,10 @@ public class GUI extends JFrame {
           }
         }
       }
+
       for (JButton bt :
               btActivos) {
-        image = new ImageIcon(getClass().getResource("/resources/granada.png"));
+        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
         bt.setIcon(image);
       }
 
