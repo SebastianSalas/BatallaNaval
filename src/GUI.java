@@ -202,10 +202,6 @@ public class GUI extends JFrame {
     return barco;
   }
 
-  public boolean validarSiTieneBarco(){
-    return true;
-  }
-
 
   /**
    * inner class that extends an Adapter Class or implements Listeners used by GUI class
@@ -244,28 +240,25 @@ public class GUI extends JFrame {
       for (int h = 0; h < barco; h++) {
         for (int i = 0; i < btBase.length; i++) {
           for (int j = 0; j < btBase[i].length; j++) {
-            if (j < (10 - barco) + 1) {
+            if (j < (10 - barco)) {
+              System.out.println("x1 = " + i + " y1 = " + j + " borde1 = " + ((10 - barco)+1));
               if (e.getSource() == btBase[i][j]) {
-
                 j++;
-                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][h + j])) {
+                if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][(h + j)-1])) {
                   tieneBarco = true;
-                  System.out.println(tieneBarco);
                 } else {
-                  System.out.println("la chimba q entre");
                   tieneBarco = false;
-                  //cambiarTamBarco();
                 }
               }
             }
-            if (i < (10 - barco) + 1) {
+            if (i < (10 - barco)) {
+              System.out.println(barco);
+              System.out.println("x2 = " + i + " y2 = " + j + " borde2 = " + ((10 - barco)));
               if (e.getSource() == btBase[i][j]) {
                 i++;
                 if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[(i + h) - 1][j])) {
                   tieneBarco = true;
-                  System.out.println(tieneBarco);
                 } else {
-                  System.out.println("la chimba q entre2");
                   tieneBarco = false;
                 }
               }
@@ -281,19 +274,18 @@ public class GUI extends JFrame {
             for (int j = 0; j < btBase[i].length; j++) {
                 if (j < (10 - barco)) {
                   if (e.getSource() == btBase[i][j]) {
-                    System.out.println("Entró 1");
+                    //System.out.println("Entró 1");
                     btActivos.add(btBase[i][j]);
-                    System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
+                    //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
                     j++;
                     //System.out.println("y  " + h + j);
-                    btBase[i][(h + j) - 1].setIcon(image);
                     btActivos.add(btBase[i][(h + j)]);
                   }
                 } else {
                   if (i < (10 - barco) + 1) {
                     if (e.getSource() == btBase[i][j]) {
-                      System.out.println("Entró 2");
-                      System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
+                      //System.out.println("Entró 2");
+                      //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
                       //System.out.println("x = " + i + " y = " + j);
                       btActivos.add(btBase[i][j]);
                       i++;
@@ -303,10 +295,7 @@ public class GUI extends JFrame {
                   } else {
                     if (e.getSource() == btBase[i][j]) {
                       btActivos.add(btBase[i][j]);
-
-
                       //System.out.println("x  " + (i - h));
-                      btBase[i - h][j].setIcon(image);
                       btActivos.add(btBase[(i - h)-1][j]);
                     }
                   }
