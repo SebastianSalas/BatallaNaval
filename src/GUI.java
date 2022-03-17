@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Janiert Sebastian Salas Castillo janiert.salas@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
-public class GUI extends JFrame implements Runnable{
+public class GUI extends JFrame implements Runnable {
   GridBagConstraints constraints = new GridBagConstraints();
   private String MENSAJE_INICIO = "                                                                  BIENVENIDOS A " +
           "BATALLA NAVAL          \n" + "\n" +
@@ -33,14 +33,14 @@ public class GUI extends JFrame implements Runnable{
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
   private Escucha escucha;
   private Escucha2 escuchaMouseListener;
-  private JButton ayuda, salir, tableroPc,empezar;
+  private JButton ayuda, salir, tableroPc, empezar, botonP;
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
-  public static int barco,por=1,sub=2,des=3,fra=4;
+  public static int barco, por = 1, sub = 2, des = 3, fra = 4;
   public static Boolean flag = true;
-  private int barcos=10;
-  private boolean p,s,d,f,cronometroActivo;
+  private int barcos = 10;
+  private boolean p, s, d, f, cronometroActivo;
   private Thread hilo;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
 
@@ -50,8 +50,8 @@ public class GUI extends JFrame implements Runnable{
    */
   public GUI() {
     initGUI();
-    barco=3;
-    p=true;
+    barco = 3;
+    p = true;
     //Default JFrame configuration
     this.setTitle("The Title app");
     //this.setPreferredSize(new Dimension(1095,528));
@@ -104,18 +104,18 @@ public class GUI extends JFrame implements Runnable{
 
   public void iniciarCronometro() {
     cronometroActivo = true;
-    hilo = new Thread( this );
+    hilo = new Thread(this);
     hilo.start();
   }
 
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
 
-    tiempo = new JLabel( "00:00");
-    tiempo.setFont( new Font( "Tahoma", 1, 25 ) );
-    tiempo.setHorizontalAlignment( JLabel.CENTER );
-    tiempo.setForeground( Color.BLACK );
-    tiempo.setOpaque( true );
+    tiempo = new JLabel("00:00");
+    tiempo.setFont(new Font("Tahoma", 1, 25));
+    tiempo.setHorizontalAlignment(JLabel.CENTER);
+    tiempo.setForeground(Color.BLACK);
+    tiempo.setOpaque(true);
     constraints.gridx = 0;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -228,37 +228,37 @@ public class GUI extends JFrame implements Runnable{
 
   public int cambiarTamBarco(int numero) {
 
-    if(p==true){
+    if (p == true) {
 
-      this.barco=numero-1;
+      this.barco = numero - 1;
 
-      p=false;
-      s=true;
+      p = false;
+      s = true;
 
-    }else{
-      if(s==true&&sub!=0){
+    } else {
+      if (s == true && sub != 0) {
         sub--;
 
-        if(sub==0){
-          this.barco=numero-1;
-          s=false;
-          d=true;
+        if (sub == 0) {
+          this.barco = numero - 1;
+          s = false;
+          d = true;
         }
 
-      }else{
-        if(d==true&&des!=0){
+      } else {
+        if (d == true && des != 0) {
           des--;
-          if(des==0){
-            this.barco=numero-1;
-            d=false;
-            f=true;
+          if (des == 0) {
+            this.barco = numero - 1;
+            d = false;
+            f = true;
           }
-        }else{
-          if(f==true&&fra!=0){
+        } else {
+          if (f == true && fra != 0) {
             fra--;
-            if(fra==0){
-              this.barco=numero-1;
-              f=false;
+            if (fra == 0) {
+              this.barco = numero - 1;
+              f = false;
             }
           }
         }
@@ -269,41 +269,82 @@ public class GUI extends JFrame implements Runnable{
 
   @Override
   public void run() {
-    Integer minutos = 0 , segundos = 0, milesimas = 0;
+    Integer minutos = 0, segundos = 0, milesimas = 0;
 
-    String min="", seg="", mil="";
-    try
-    {
-      while( cronometroActivo )
-      {
-        Thread.sleep( 4 );
+    String min = "", seg = "", mil = "";
+    try {
+      while (cronometroActivo) {
+        Thread.sleep(4);
         milesimas += 4;
-        if( milesimas == 1000 )
-        {
+        if (milesimas == 1000) {
           milesimas = 0;
           segundos += 1;
 
-          if( segundos == 60 )
-          {
+          if (segundos == 60) {
             segundos = 0;
             minutos++;
           }
         }
-        if( minutos < 10 ) min = "0" + minutos;
+        if (minutos < 10) min = "0" + minutos;
         else min = minutos.toString();
-        if( segundos < 10 ) seg = "0" + segundos;
+        if (segundos < 10) seg = "0" + segundos;
         else seg = segundos.toString();
 
-        if( milesimas < 10 ) mil = "00" + milesimas;
-        else if( milesimas < 100 ) mil = "0" + milesimas;
-        tiempo.setText( min + ":" + seg );
+        if (milesimas < 10) mil = "00" + milesimas;
+        else if (milesimas < 100) mil = "0" + milesimas;
+        tiempo.setText(min + ":" + seg);
       }
-    }catch(Exception e){
+    } catch (Exception e) {
 
     }
-    tiempo.setText( "00:00:000" );
+
   }
 
+  public boolean verificarBarcoHorizontal(Object botonP) {
+    boolean tieneBarco = false;
+
+    for (int i = 0; i < btBase.length; i++) {
+      for (int j = 0; j < btBase[i].length; j++) {
+          if (i < 10 - barco && j >= 10 - barco) {
+            if (botonP == btBase[i][j]) {
+              for (int h = 0; h < barco; h++) {
+              i++;
+              if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+                tieneBarco = true;
+                break;
+              } else {
+                tieneBarco = false;
+              }
+            }
+          }
+        }
+      }
+    }
+    return tieneBarco;
+  }
+
+  public boolean verificarBarcoVertical(Object botonP) {
+    boolean tieneBarco = false;
+
+    for (int i = 0; i < btBase.length; i++) {
+      for (int j = 0; j < btBase[i].length; j++) {
+        if (j < 10 - barco) {
+          if (botonP == btBase[i][j]) {
+            for (int h = 0; h < barco; h++) {
+              j++;
+              if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+                tieneBarco = true;
+                break;
+              } else {
+                tieneBarco = false;
+              }
+            }
+          }
+        }
+      }
+    }
+    return tieneBarco;
+  }
 
   /**
    * inner class that extends an Adapter Class or implements Listeners used by GUI class
@@ -324,7 +365,7 @@ public class GUI extends JFrame implements Runnable{
         GUI_Enemy guiEnemy = new GUI_Enemy();
         guiEnemy.setVisible(true);
       }
-      if(e.getSource()==empezar){
+      if (e.getSource() == empezar) {
         iniciarCronometro();
       }
 
@@ -336,65 +377,34 @@ public class GUI extends JFrame implements Runnable{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-      if(e.getButton()==1){
+      if (e.getButton() == 1) {
+        boolean tieneBarcoV, tieneBarcoH;
+        tieneBarcoV = verificarBarcoVertical(e.getSource());
+        tieneBarcoH = verificarBarcoHorizontal(e.getSource());
 
-        boolean tieneBarco = false;
 
-        for (int h = 0; h < barco; h++) {
-          for (int i = 0; i < btBase.length; i++) {
-            for (int j = 0; j < btBase[i].length; j++) {
-              if (j < (10 - barco)) {
-                System.out.println("x1 = " + i + " y1 = " + j + " borde1 = " + ((10 - barco)+1));
-                if (e.getSource() == btBase[i][j]) {
-                  j++;
-                  if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[i][(h + j)-1])) {
-                    tieneBarco = true;
-                  } else {
-                    tieneBarco = false;
-                  }
-                }
-              }
-              if (i < (10 - barco)) {
-                System.out.println(barco);
-                System.out.println("x2 = " + i + " y2 = " + j + " borde2 = " + ((10 - barco)));
-                if (e.getSource() == btBase[i][j]) {
-                  i++;
-                  if (btActivos.contains(e.getSource()) || btActivos.contains(btBase[(i + h) - 1][j])) {
-                    tieneBarco = true;
-                  } else {
-                    tieneBarco = false;
-                  }
-                }
-              }
-            }
-          }
-        }
+        if (tieneBarcoH == true || tieneBarcoV == true) {
+          JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
 
-        if (tieneBarco == false) {
-
-          if(barco ==0){
+        } else {
+          if (barco == 0) {
             for (int h = 0; h < 1; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
                   if (!(btActivos.contains(btBase[i][j]))) {
                     if (j < 10) {
                       if (e.getSource() == btBase[i][j]) {
-                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                         btActivos.add(btBase[i][j]);
-                        btBase[i][j].setIcon(image);
 
                       }
-                    } else {
-
                     }
-                  } else {
                   }
                 }
               }
             }
             cambiarTamBarco(barco);
 
-          }else{
+          } else {
             for (int h = 0; h < barco; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
@@ -422,7 +432,7 @@ public class GUI extends JFrame implements Runnable{
                       if (e.getSource() == btBase[i][j]) {
                         btActivos.add(btBase[i][j]);
                         //System.out.println("x  " + (i - h));
-                        btActivos.add(btBase[(i - h)-1][j]);
+                        btActivos.add(btBase[(i - h) - 1][j]);
                       }
                     }
                   }
@@ -431,13 +441,12 @@ public class GUI extends JFrame implements Runnable{
             }
             cambiarTamBarco(barco);
           }
-          }else {
-          JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
         }
-      }else {
+      } else {
         System.out.println("xd");
       }
     }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -452,7 +461,7 @@ public class GUI extends JFrame implements Runnable{
     @Override
     public void mouseEntered(MouseEvent e) {
 
-      if(barco==0){
+      if (barco == 0) {
         for (int h = 0; h < 1; h++) {
 
           for (int i = 0; i < btBase.length; i++) {
@@ -471,7 +480,7 @@ public class GUI extends JFrame implements Runnable{
             }
           }
         }
-      }else{
+      } else {
         for (int h = 0; h < barco; h++) {
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
@@ -509,13 +518,12 @@ public class GUI extends JFrame implements Runnable{
       }
 
 
-
     }
 
 
     @Override
     public void mouseExited(MouseEvent e) {
-      if(barco==0){
+      if (barco == 0) {
         for (int h = 0; h < 1; h++) {
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
@@ -533,7 +541,7 @@ public class GUI extends JFrame implements Runnable{
             }
           }
         }
-      }else{
+      } else {
         for (int h = 0; h < barco; h++) {
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
