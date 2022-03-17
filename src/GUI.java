@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Janiert Sebastian Salas Castillo janiert.salas@correounivalle.edu.co
  * @version v.1.0.0 date:21/11/2021
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame implements Runnable{
   GridBagConstraints constraints = new GridBagConstraints();
   private String MENSAJE_INICIO = "                                                                  BIENVENIDOS A " +
           "BATALLA NAVAL          \n" + "\n" +
@@ -29,17 +29,19 @@ public class GUI extends JFrame {
           " ataque\n" +
           "el enemigo lo devolvera para hundir tus barcos";
   private Header headerProject;
-  private JPanel panelBarcos, panelMiTablero, panelTableroPc, panelTableroPc2, base, enemigo;
+  private JLabel tiempo;
+  private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
   private Escucha escucha;
   private Escucha2 escuchaMouseListener;
-  private JButton ayuda, salir, tableroPc, quitarTablero;
+  private JButton ayuda, salir, tableroPc,empezar;
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
   public static int barco,por=1,sub=2,des=3,fra=4;
   public static Boolean flag = true;
   private int barcos=10;
-  private boolean p,s,d,f;
+  private boolean p,s,d,f,cronometroActivo;
+  private Thread hilo;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
 
 
@@ -100,8 +102,26 @@ public class GUI extends JFrame {
     }
   }
 
+  public void iniciarCronometro() {
+    cronometroActivo = true;
+    hilo = new Thread( this );
+    hilo.start();
+  }
+
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
+
+    tiempo = new JLabel( "00:00");
+    tiempo.setFont( new Font( "Tahoma", 1, 25 ) );
+    tiempo.setHorizontalAlignment( JLabel.CENTER );
+    tiempo.setForeground( Color.BLACK );
+    tiempo.setOpaque( true );
+    constraints.gridx = 0;
+    constraints.gridy = 3;
+    constraints.gridwidth = 1;
+    constraints.fill = GridBagConstraints.NONE;
+    constraints.anchor = GridBagConstraints.PAGE_START;
+    add(tiempo, constraints);
 
     base = new JPanel();
     base.setLayout(null);
@@ -160,6 +180,15 @@ public class GUI extends JFrame {
     constraints.anchor = GridBagConstraints.LINE_END;
     this.add(tableroPc, constraints);
 
+    empezar = new JButton("Empezar");
+    empezar.addActionListener(escucha);
+    constraints.gridx = 1;
+    constraints.gridy = 3;
+    constraints.gridwidth = 1;
+    constraints.fill = GridBagConstraints.NONE;
+    constraints.anchor = GridBagConstraints.CENTER;
+    this.add(empezar, constraints);
+
     panelMiTablero = new JPanel();
     panelMiTablero.setPreferredSize(new Dimension(440, 400));
     panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 3, true), "BASE",
@@ -190,9 +219,6 @@ public class GUI extends JFrame {
 
   /**
    * Main process of the Java program
-   *
-   * @param args Object used in order to send input data from command line when
-   *             the program is execute by console.
    */
   public static void main(String[] args) {
     EventQueue.invokeLater(() -> {
@@ -241,6 +267,43 @@ public class GUI extends JFrame {
     return barco;
   }
 
+  @Override
+  public void run() {
+    Integer minutos = 0 , segundos = 0, milesimas = 0;
+
+    String min="", seg="", mil="";
+    try
+    {
+      while( cronometroActivo )
+      {
+        Thread.sleep( 4 );
+        milesimas += 4;
+        if( milesimas == 1000 )
+        {
+          milesimas = 0;
+          segundos += 1;
+
+          if( segundos == 60 )
+          {
+            segundos = 0;
+            minutos++;
+          }
+        }
+        if( minutos < 10 ) min = "0" + minutos;
+        else min = minutos.toString();
+        if( segundos < 10 ) seg = "0" + segundos;
+        else seg = segundos.toString();
+
+        if( milesimas < 10 ) mil = "00" + milesimas;
+        else if( milesimas < 100 ) mil = "0" + milesimas;
+        tiempo.setText( min + ":" + seg );
+      }
+    }catch(Exception e){
+
+    }
+    tiempo.setText( "00:00:000" );
+  }
+
 
   /**
    * inner class that extends an Adapter Class or implements Listeners used by GUI class
@@ -261,10 +324,8 @@ public class GUI extends JFrame {
         GUI_Enemy guiEnemy = new GUI_Enemy();
         guiEnemy.setVisible(true);
       }
-
-      if (e.getSource() == quitarTablero) {
-        GUI_Enemy guiEnemy = new GUI_Enemy();
-        guiEnemy.setVisible(false);
+      if(e.getSource()==empezar){
+        iniciarCronometro();
       }
 
     }
