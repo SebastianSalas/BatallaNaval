@@ -109,15 +109,7 @@ public class GUI extends JFrame implements Runnable {
     hilo.start();
   }
 
-  public void colocarBarcos(){
-    Random aleatorio= new Random();
-    fila= aleatorio.nextInt(10);
-    col= aleatorio.nextInt(10);
 
-
-
-
-  }
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
 
@@ -286,6 +278,14 @@ public class GUI extends JFrame implements Runnable {
     return barco;
   }
 
+  public void colocarBarcos(){
+    Random aleatorio= new Random();
+    fila= aleatorio.nextInt(10);
+    col= aleatorio.nextInt(10);
+
+
+  }
+
   @Override
   public void run() {
     Integer minutos = 0, segundos = 0, milesimas = 0;
@@ -385,6 +385,7 @@ public class GUI extends JFrame implements Runnable {
         guiEnemy.setVisible(true);
       }
       if (e.getSource() == empezar) {
+        JOptionPane.showMessageDialog(null,"Colocando barcos enemigos...");
         iniciarCronometro();
       }
 
@@ -426,7 +427,7 @@ public class GUI extends JFrame implements Runnable {
             for (int h = 0; h < barco-1; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
-                  if (j < (10 - barco)) {
+                  if (j < (10 - barco)+1) {
                     if (e.getSource() == btBase[i][j]) {
                       btActivos.add(btBase[i][j]);
                       j++;
