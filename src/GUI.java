@@ -4,6 +4,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class is used for ...
@@ -29,7 +30,7 @@ public class GUI extends JFrame implements Runnable {
           " ataque\n" +
           "el enemigo lo devolvera para hundir tus barcos";
   private Header headerProject;
-  private JLabel tiempo;
+  private JLabel tiempo,mBarco;
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
   private Escucha escucha;
   private Escucha2 escuchaMouseListener;
@@ -39,18 +40,18 @@ public class GUI extends JFrame implements Runnable {
   private ImageIcon image;
   public static int barco, por = 1, sub = 2, des = 3, fra = 4;
   public static Boolean flag = true;
-  private int barcos = 10;
+  private int fila,col;
   private boolean p, s, d, f, cronometroActivo;
   private Thread hilo;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
-
+  private ArrayList<JButton> btActivosM = new ArrayList<JButton>();
 
   /**
    * Constructor of GUI class
    */
   public GUI() {
     initGUI();
-    barco = 3;
+    barco = 4;
     p = true;
     //Default JFrame configuration
     this.setTitle("The Title app");
@@ -108,6 +109,15 @@ public class GUI extends JFrame implements Runnable {
     hilo.start();
   }
 
+  public void colocarBarcos(){
+    Random aleatorio= new Random();
+    fila= aleatorio.nextInt(10);
+    col= aleatorio.nextInt(10);
+
+
+
+
+  }
   private void initGUI() {
     this.getContentPane().setLayout(new GridBagLayout());
 
@@ -159,8 +169,10 @@ public class GUI extends JFrame implements Runnable {
     constraints.anchor = GridBagConstraints.LINE_END;
     this.add(salir, constraints);
 
+
+
     panelBarcos = new JPanel();
-    panelBarcos.setPreferredSize(new Dimension(165, 315));
+    panelBarcos.setPreferredSize(new Dimension(165, 200));
     panelBarcos.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "Mis Barcos",
             TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 14)));
     constraints.gridx = 0;
@@ -170,6 +182,11 @@ public class GUI extends JFrame implements Runnable {
     constraints.fill = GridBagConstraints.NONE;
     constraints.anchor = GridBagConstraints.CENTER;
     add(panelBarcos, constraints);
+    mBarco=new JLabel();
+    image = new ImageIcon(getClass().getResource("/resources/barcos.jpg"));
+    mBarco.setIcon(image);
+    panelBarcos.add(mBarco);
+
 
     tableroPc = new JButton("Mostrar Tablero");
     tableroPc.addActionListener(escucha);
@@ -216,6 +233,8 @@ public class GUI extends JFrame implements Runnable {
     add(panelTableroPc, constraints);
 
   }
+
+
 
   /**
    * Main process of the Java program
@@ -379,15 +398,15 @@ public class GUI extends JFrame implements Runnable {
     public void mouseClicked(MouseEvent e) {
       if (e.getButton() == 1) {
         boolean tieneBarcoV, tieneBarcoH;
+
         tieneBarcoV = verificarBarcoVertical(e.getSource());
         tieneBarcoH = verificarBarcoHorizontal(e.getSource());
-
 
         if (tieneBarcoH == true || tieneBarcoV == true) {
           JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.");
 
         } else {
-          if (barco == 0) {
+          if (barco == 1) {
             for (int h = 0; h < 1; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
@@ -403,35 +422,28 @@ public class GUI extends JFrame implements Runnable {
               }
             }
             cambiarTamBarco(barco);
-
           } else {
-            for (int h = 0; h < barco; h++) {
+            for (int h = 0; h < barco-1; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
                   if (j < (10 - barco)) {
                     if (e.getSource() == btBase[i][j]) {
-                      //System.out.println("Entró 1");
                       btActivos.add(btBase[i][j]);
-                      //System.out.println("x = " + i + " y = " + j + " borde = " + ((10 - barco)));
                       j++;
-                      //System.out.println("y  " + h + j);
                       btActivos.add(btBase[i][(h + j)]);
                     }
                   } else {
                     if (i < (10 - barco) + 1) {
                       if (e.getSource() == btBase[i][j]) {
-                        //System.out.println("Entró 2");
-                        //System.out.println("x " + i + " barquini " + ((10 - barco) + 1));
-                        //System.out.println("x = " + i + " y = " + j);
+
                         btActivos.add(btBase[i][j]);
                         i++;
-                        //System.out.println("y  " + h + j);
+
                         btActivos.add(btBase[(i + h)][j]);
                       }
                     } else {
                       if (e.getSource() == btBase[i][j]) {
                         btActivos.add(btBase[i][j]);
-                        //System.out.println("x  " + (i - h));
                         btActivos.add(btBase[(i - h) - 1][j]);
                       }
                     }
@@ -441,6 +453,7 @@ public class GUI extends JFrame implements Runnable {
             }
             cambiarTamBarco(barco);
           }
+
         }
       } else {
         System.out.println("xd");
@@ -463,7 +476,6 @@ public class GUI extends JFrame implements Runnable {
 
       if (barco == 0) {
         for (int h = 0; h < 1; h++) {
-
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
               if (!(btActivos.contains(btBase[i][j]))) {
@@ -498,15 +510,12 @@ public class GUI extends JFrame implements Runnable {
                       image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                       btBase[i][j].setIcon(image);
                       i++;
-                      //System.out.println("y  " + h + j);
                       btBase[(i + h) - 1][j].setIcon(image);
                     }
                   } else {
                     if (e.getSource() == btBase[i][j]) {
                       image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                       btBase[i][j].setIcon(image);
-
-                      //System.out.println("x  " + (i - h));
                       btBase[i - h][j].setIcon(image);
                     }
                   }
@@ -516,7 +525,6 @@ public class GUI extends JFrame implements Runnable {
           }
         }
       }
-
 
     }
 
@@ -545,37 +553,28 @@ public class GUI extends JFrame implements Runnable {
         for (int h = 0; h < barco; h++) {
           for (int i = 0; i < btBase.length; i++) {
             for (int j = 0; j < btBase[i].length; j++) {
-
               if (!(btActivos.contains(btBase[i][j]))) {
                 if (j < (10 - barco) + 1) {
                   if (e.getSource() == btBase[i][j]) {
-                    //System.out.println("x = " + i + " y = " + j);
                     image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                     btBase[i][j].setIcon(null);
                     j++;
-                    //System.out.println("y  " + h + j);
-                    //System.out.println("h = " + h +"y = "+ (h+j));
                     btBase[i][(h + j) - 1].setIcon(null);
                   } else {
 
                   }
                 } else {
                   if (i < (10 - barco) + 1) {
-                    //System.out.println("x " + i + " barquini "+((10-barco)+1));
                     if (e.getSource() == btBase[i][j]) {
-                      //System.out.println("x = " + i + " y = " + j);
                       image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                       btBase[i][j].setIcon(null);
                       i++;
-                      //System.out.println("y  " + h + j);
                       btBase[(i + h) - 1][j].setIcon(null);
                     }
                   } else {
                     if (e.getSource() == btBase[i][j]) {
                       image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                       btBase[i][j].setIcon(null);
-
-                      //System.out.println("x  " + (i - h));
                       btBase[i - h][j].setIcon(null);
                     }
                   }
