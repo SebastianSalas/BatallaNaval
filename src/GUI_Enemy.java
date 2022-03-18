@@ -12,7 +12,7 @@ public class GUI_Enemy extends JFrame{
     GridBagConstraints constraints = new GridBagConstraints();
     private Header headerProject;
     private JPanel panelMiTablero, baseEnemiga;
-    private  ImageIcon image;
+    private ImageIcon image;
     private JButton salir;
     private static JButton [][] btEnemy=new JButton[10][10];
     private Escucha escucha;
@@ -23,6 +23,8 @@ public class GUI_Enemy extends JFrame{
     public static ArrayList<String> direcciones =new ArrayList<String>();
     private int nbarcos;
     public static int s,s2;
+    private ImageIcon fondos;
+    private JLabel fondo;
 
     public boolean verificarBarcoHorizontal(Object botonP) {
         boolean tieneBarco = false;
@@ -73,6 +75,8 @@ public class GUI_Enemy extends JFrame{
         initGUI();
         //Default JFrame configuration
         this.setTitle("Batalla Naval");
+        fondos= new ImageIcon("src/resources/fondo.jpg");
+        fondo= new JLabel(fondos);
         // this.setPreferredSize(new Dimension(1095,528));
         this.setBackground(new Color(255,255,255));
         this.setUndecorated(true);
@@ -88,6 +92,16 @@ public class GUI_Enemy extends JFrame{
 
             mostrarbarcos();
         }
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        this.getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
     }
 
     public void llenar(){
@@ -96,7 +110,7 @@ public class GUI_Enemy extends JFrame{
         for (int j=0;j<btEnemy.length;j++){
             for (int i=0;i<btEnemy[j].length;i++){
                 btEnemy[i][j]=new JButton();
-                btEnemy[i][j].setBackground(Color.cyan);
+                btEnemy[i][j].setBackground(new Color(0,204,255));
                 btEnemy[i][j].setBounds(x,y,35,33);
                 baseEnemiga.add(btEnemy[i][j],BorderLayout.CENTER);
                 x+=35;
@@ -184,6 +198,7 @@ public class GUI_Enemy extends JFrame{
         BarcoH = verificarBarcoHorizontal(btEnemy[x][y]);
         if(BarcoH == true || BarcoV == true){
             System.out.println("sobrepesto");
+            colocarBarcosEnemigos();
         }else{
             if(portaaviones==true){
                 System.out.println("1");
@@ -540,7 +555,7 @@ public class GUI_Enemy extends JFrame{
         nbarcos=4;
         portaaviones=true;
         baseEnemiga.setPreferredSize(new Dimension(370,350));
-        baseEnemiga.setBackground(Color.BLUE);
+        baseEnemiga.setBackground(new Color(255,255,255,0));
 
         headerProject = new Header("Tablero Enemigo", Color.BLACK);
         constraints.gridx=0;
@@ -564,8 +579,9 @@ public class GUI_Enemy extends JFrame{
         this.add(salir,constraints);
 
         panelMiTablero=new JPanel();
-        panelMiTablero.setPreferredSize(new Dimension(440, 400));
-        panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0),3,true),"MAPA",TitledBorder.CENTER,TitledBorder.TOP,new Font("Tahoma", 1, 15)));
+        panelMiTablero.setPreferredSize(new Dimension(410, 390));
+        panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255,255,255),3,true),"MAPA",TitledBorder.CENTER,TitledBorder.TOP,new Font("Tahoma", 1, 15),new Color(255,255,255)));
+        panelMiTablero.setBackground(new Color(255,255,255,0));
         constraints.gridx=1;
         constraints.gridy=2;
         constraints.gridwidth=1;
