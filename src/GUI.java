@@ -38,13 +38,13 @@ public class GUI extends JFrame implements Runnable {
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
-  public static int barco, por = 1, sub = 2, des = 3, fra = 4;
+  public static int barco,barco2, por= 1, sub = 2, des = 3, fra = 4;
   public static Boolean flag = true;
-  private int fila,col;
+  private int x,y;
   private boolean p, s, d, f, cronometroActivo;
   private Thread hilo;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
-  private ArrayList<JButton> btActivosM = new ArrayList<JButton>();
+  public static ArrayList<JButton> btActivosM = new ArrayList<JButton>();
 
   /**
    * Constructor of GUI class
@@ -52,6 +52,7 @@ public class GUI extends JFrame implements Runnable {
   public GUI() {
     initGUI();
     barco = 4;
+    barco2 = 4;
     p = true;
     //Default JFrame configuration
     this.setTitle("The Title app");
@@ -143,7 +144,12 @@ public class GUI extends JFrame implements Runnable {
     constraints.fill = GridBagConstraints.HORIZONTAL;
     this.add(headerProject, constraints);
 
-    ayuda = new JButton(" ? ");
+    ayuda = new JButton();
+    image=new ImageIcon("src/resources/question.png");
+    ayuda.setIcon(image);
+    ayuda.setBorderPainted(false);
+    ayuda.setContentAreaFilled(false);
+    ayuda.setFocusable(false);
     ayuda.addActionListener(escucha);
     constraints.gridx = 0;
     constraints.gridy = 1;
@@ -152,7 +158,12 @@ public class GUI extends JFrame implements Runnable {
     constraints.anchor = GridBagConstraints.LINE_START;
     this.add(ayuda, constraints);
 
-    salir = new JButton(" X ");
+    salir = new JButton( );
+    image=new ImageIcon("src/resources/power.png");
+    salir.setIcon(image);
+    salir.setBorderPainted(false);
+    salir.setContentAreaFilled(false);
+    salir.setFocusable(false);
     salir.addActionListener(escucha);
     constraints.gridx = 2;
     constraints.gridy = 1;
@@ -278,14 +289,6 @@ public class GUI extends JFrame implements Runnable {
     return barco;
   }
 
-  public void colocarBarcos(){
-    Random aleatorio= new Random();
-    fila= aleatorio.nextInt(10);
-    col= aleatorio.nextInt(10);
-
-
-  }
-
   @Override
   public void run() {
     Integer minutos = 0, segundos = 0, milesimas = 0;
@@ -319,6 +322,7 @@ public class GUI extends JFrame implements Runnable {
 
   }
 
+
   public boolean verificarBarcoHorizontal(Object botonP) {
     boolean tieneBarco = false;
 
@@ -341,7 +345,6 @@ public class GUI extends JFrame implements Runnable {
     }
     return tieneBarco;
   }
-
   public boolean verificarBarcoVertical(Object botonP) {
     boolean tieneBarco = false;
 
@@ -379,14 +382,18 @@ public class GUI extends JFrame implements Runnable {
       if (e.getSource() == ayuda) {
         JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
       }
-
+      BarcosGuardados guardados=new BarcosGuardados();
       if (e.getSource() == tableroPc) {
         GUI_Enemy guiEnemy = new GUI_Enemy();
+        guardados.setcolocados(true);
         guiEnemy.setVisible(true);
+
       }
       if (e.getSource() == empezar) {
         JOptionPane.showMessageDialog(null,"Colocando barcos enemigos...");
         iniciarCronometro();
+
+
       }
 
     }
@@ -436,10 +443,8 @@ public class GUI extends JFrame implements Runnable {
                   } else {
                     if (i < (10 - barco) + 1) {
                       if (e.getSource() == btBase[i][j]) {
-
                         btActivos.add(btBase[i][j]);
                         i++;
-
                         btActivos.add(btBase[(i + h)][j]);
                       }
                     } else {
