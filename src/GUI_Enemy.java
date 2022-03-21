@@ -23,8 +23,11 @@ public class GUI_Enemy extends JFrame{
     public static ArrayList<String> direcciones =new ArrayList<String>();
     private int nbarcos;
     public static int s,s2;
+    private int x1=0;
     private ImageIcon fondos;
     private JLabel fondo;
+    public static int posicionx[]=new int[20];
+    public static int posiciony[]=new int[20];
 
     public boolean verificarBarcoHorizontal(Object botonP) {
         boolean tieneBarco = false;
@@ -71,6 +74,16 @@ public class GUI_Enemy extends JFrame{
         }
         return tieneBarco;
     }
+
+    public int[] getPosicionX(){
+
+        return posicionx;
+    }
+    public int[] getPosiciony(){
+
+        return posiciony;
+    }
+
     public GUI_Enemy()  {
         initGUI();
         //Default JFrame configuration
@@ -121,6 +134,7 @@ public class GUI_Enemy extends JFrame{
     }
 
     private void mostrarbarcos(){
+
 
         for (int j = 0; j< btEnemy.length; j++){
             for (int i = 0; i< btEnemy[j].length; i++){
@@ -186,85 +200,106 @@ public class GUI_Enemy extends JFrame{
     }
 
     public void colocarBarcosEnemigos(){
+
+
         Random aleatorio=new Random();
+
         int x,y;
         x=aleatorio.nextInt(9);
         y=aleatorio.nextInt(9);
 
-        boolean BarcoV, BarcoH;
+        boolean horizontal=verificarBarcoHorizontal(btEnemy[x][y]);
+        boolean vertical=verificarBarcoVertical(btEnemy[x][y]);
 
-        BarcoV = verificarBarcoVertical(btEnemy[x][y]);
-        BarcoH = verificarBarcoHorizontal(btEnemy[x][y]);
-        if(BarcoH == true || BarcoV == true){
-            //System.out.println("sobrepesto");
+        if(horizontal==true||vertical==true){
+
+            System.out.println("sobrepóne");
             colocarBarcosEnemigos();
-        }else{
-            if(portaaviones==true){
-                System.out.println("1");
+        }else {
+            if (portaaviones == true) {
+
                 for (int h = 0; h < nbarcos; h++) {
                     for (int i = 0; i < btEnemy.length; i++) {
                         for (int j = 0; j < btEnemy[i].length; j++) {
-                            if (j < (10 - nbarcos)+1) {
+                            if (j < (10 - nbarcos) + 1) {
                                 if (btEnemy[x][y] == btEnemy[i][j]) {
+                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                    if (enemigosColocados.contains(btEnemy[i][j])) {
 
-
-                                    if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                    }else{
-
+                                    } else {
                                         enemigosColocados.add(btEnemy[i][j]);
                                         direcciones.add(btEnemy[i][j].toString());
-
-                                        s=i;
-                                        s2=j;
+                                        btEnemy[i][j].setIcon(image);
+                                        s = i;
+                                        s2 = j;
+                                        posicionx[x1]=s;
+                                        posiciony[x1]=s2;
+                                        x1++;
                                     }
-
-
                                     j++;
-                                    if(enemigosColocados.contains(btEnemy[i][(h + j)-1])){
+                                    if (enemigosColocados.contains(btEnemy[i][(h + j) - 1])) {
 
-                                    }else{
-                                        enemigosColocados.add(btEnemy[i][(h + j)-1]);
-                                        direcciones.add(btEnemy[i][(h + j)-1].toString());
-                                        s=i;
-                                        s2=j;
+                                    } else {
+                                        enemigosColocados.add(btEnemy[i][(h + j) - 1]);
+                                        direcciones.add(btEnemy[i][(h + j) - 1].toString());
+                                        s = i;
+                                        s2 =( h + j) - 1;
+                                        posicionx[x1]=s;
+                                        posiciony[x1]=s2;
+                                        x1++;
                                     }
+                                    btEnemy[i][(h + j) - 1].setIcon(image);
 
 
                                 }
 
 
-                            }else{
-                                if (i <(10 - nbarcos)+1 ) {
-                                    if (btEnemy[x][y]== btEnemy[i][j]) {
-
-
-                                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-
-
-                                        if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                        }else{
+                            } else {
+                                if (i < (10 - nbarcos) + 1) {
+                                    if (btEnemy[x][y] == btEnemy[i][j]) {
+                                        image =new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                        if (enemigosColocados.contains(btEnemy[i][j])) {
+                                        } else {
                                             enemigosColocados.add(btEnemy[i][j]);
                                             direcciones.add(btEnemy[i][j].toString());
-                                            s=i;
-                                            s2=j;
+                                            btEnemy[x][y].setIcon(image);
+                                            s = i;
+                                            s2 = j;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
                                         }
                                         i++;
-                                        if(enemigosColocados.contains(btEnemy[(i + h)-1 ][j])){
+                                        if (enemigosColocados.contains(btEnemy[(i + h) - 1][j])) {
 
-                                        }else{
-                                            enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
-                                            direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                            s=i;
-                                            s2=j;
+                                        } else {
+                                            enemigosColocados.add(btEnemy[(i + h) - 1][j]);
+                                            direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                            btEnemy[(i + h) - 1][j].setIcon(image);
+                                            s = (i + h) - 1;
+                                            s2 = j;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
                                         }
                                     }
                                 } else {
-                                    if (btEnemy[x][y]== btEnemy[i][j]) {
+                                    if (btEnemy[x][y] == btEnemy[i][j]) {
+                                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                        btEnemy[(i)][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i][j]);
-
+                                        s = i;
+                                        s2 = j;
+                                        posicionx[x1]=s;
+                                        posiciony[x1]=s2;
+                                        x1++;
+                                        btEnemy[i - h][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i - h][j]);
+                                        s = i - h;
+                                        s2 = j;
+                                        posicionx[x1]=s;
+                                        posiciony[x1]=s2;
+                                        x1++;
                                     }
                                 }
                             }
@@ -272,73 +307,84 @@ public class GUI_Enemy extends JFrame{
                         }
                     }
                 }
-            }else{
-                if(submarino==true){
-                    //System.out.println("2");
+            } else {
+                if (submarino == true) {
                     for (int h = 0; h < nbarcos; h++) {
                         for (int i = 0; i < btEnemy.length; i++) {
                             for (int j = 0; j < btEnemy[i].length; j++) {
-                                if (j < (10 - nbarcos)+1) {
+                                if (j < (10 - nbarcos) + 1) {
                                     if (btEnemy[x][y] == btEnemy[i][j]) {
-
-
-                                        if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                        }else{
-
+                                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                        if (enemigosColocados.contains(btEnemy[i][j])) {
+                                        } else {
                                             enemigosColocados.add(btEnemy[i][j]);
                                             direcciones.add(btEnemy[i][j].toString());
-
-                                            s=i;
-                                            s2=j;
+                                            btEnemy[i][j].setIcon(image);
+                                            s = i;
+                                            s2 = j;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
                                         }
-
-
                                         j++;
-                                        if(enemigosColocados.contains(btEnemy[i][(h + j)-1])){
+                                        if (enemigosColocados.contains(btEnemy[i][(h + j) - 1])) {
 
-                                        }else{
-                                            enemigosColocados.add(btEnemy[i][(h + j)-1]);
-                                            direcciones.add(btEnemy[i][(h + j)-1].toString());
-                                            s=i;
-                                            s2=j;
+                                        } else {
+                                            enemigosColocados.add(btEnemy[i][(h + j) - 1]);
+                                            direcciones.add(btEnemy[i][(h + j) - 1].toString());
+                                            s = i;
+                                            s2 = (h + j) - 1;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
                                         }
-
-
+                                        btEnemy[i][(h + j) - 1].setIcon(image);
                                     }
-
-
-                                }else{
-                                    if (i <(10 - nbarcos)+1 ) {
-                                        if (btEnemy[x][y]== btEnemy[i][j]) {
-
-
-
-
-                                            if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                            }else{
+                                } else {
+                                    if (i < (10 - nbarcos) + 1) {
+                                        if (btEnemy[x][y] == btEnemy[i][j]) {
+                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                            if (enemigosColocados.contains(btEnemy[i][j])) {
+                                            } else {
                                                 enemigosColocados.add(btEnemy[i][j]);
                                                 direcciones.add(btEnemy[i][j].toString());
-                                                s=i;
-                                                s2=j;
+                                                btEnemy[x][y].setIcon(image);
+                                                s = i;
+                                                s2 = j;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
                                             }
                                             i++;
-                                            if(enemigosColocados.contains(btEnemy[(i + h)-1 ][j])){
-
-                                            }else{
-                                                enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
-                                                direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                                s=i;
-                                                s2=j;
+                                            if (enemigosColocados.contains(btEnemy[(i + h) - 1][j])) {
+                                            } else {
+                                                enemigosColocados.add(btEnemy[(i + h) - 1][j]);
+                                                direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                btEnemy[(i + h) - 1][j].setIcon(image);
+                                                s = (i + h) - 1;
+                                                s2 = j;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
                                             }
                                         }
                                     } else {
-                                        if (btEnemy[x][y]== btEnemy[i][j]) {
+                                        if (btEnemy[x][y] == btEnemy[i][j]) {
+                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                            btEnemy[(i)][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i][j]);
-
-
+                                            s =i;
+                                            s2 = j;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
+                                            btEnemy[i - h][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i - h][j]);
+                                            s = i - h ;
+                                            s2 = j;
+                                            posicionx[x1]=s;
+                                            posiciony[x1]=s2;
+                                            x1++;
                                         }
                                     }
                                 }
@@ -346,73 +392,86 @@ public class GUI_Enemy extends JFrame{
                             }
                         }
                     }
-                }else{
-                    if(destructores==true){
-                        //System.out.println("3");
+                } else {
+                    if (destructores == true) {
                         for (int h = 0; h < nbarcos; h++) {
                             for (int i = 0; i < btEnemy.length; i++) {
                                 for (int j = 0; j < btEnemy[i].length; j++) {
-                                    if (j < (10 - nbarcos)+1) {
+                                    if (j < (10 - nbarcos) + 1) {
                                         if (btEnemy[x][y] == btEnemy[i][j]) {
-
-
-                                            if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                            }else{
-
+                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                            if (enemigosColocados.contains(btEnemy[i][j])) {
+                                            } else {
                                                 enemigosColocados.add(btEnemy[i][j]);
                                                 direcciones.add(btEnemy[i][j].toString());
+                                                btEnemy[i][j].setIcon(image);
 
-                                                s=i;
-                                                s2=j;
+                                                s =i;
+                                                s2 = j;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
                                             }
-
-
                                             j++;
-                                            if(enemigosColocados.contains(btEnemy[i][(h + j)-1])){
+                                            if (enemigosColocados.contains(btEnemy[i][(h + j) - 1])) {
 
-                                            }else{
-                                                enemigosColocados.add(btEnemy[i][(h + j)-1]);
-                                                direcciones.add(btEnemy[i][(h + j)-1].toString());
-                                                s=i;
-                                                s2=j;
+                                            } else {
+                                                enemigosColocados.add(btEnemy[i][(h + j) - 1]);
+                                                direcciones.add(btEnemy[i][(h + j) - 1].toString());
+                                                s =i;
+                                                s2 = (h + j) - 1;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
                                             }
-
-
+                                            btEnemy[i][(h + j) - 1].setIcon(image);
                                         }
-
-
-                                    }else{
-                                        if (i <(10 - nbarcos)+1 ) {
-                                            if (btEnemy[x][y]== btEnemy[i][j]) {
-
-
-
-
-                                                if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                                }else{
+                                    } else {
+                                        if (i < (10 - nbarcos) + 1) {
+                                            if (btEnemy[x][y] == btEnemy[i][j]) {
+                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                                if (enemigosColocados.contains(btEnemy[i][j])) {
+                                                } else {
                                                     enemigosColocados.add(btEnemy[i][j]);
                                                     direcciones.add(btEnemy[i][j].toString());
-                                                    s=i;
-                                                    s2=j;
+                                                    btEnemy[x][y].setIcon(image);
+                                                    s =i;
+                                                    s2 = j;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
                                                 }
                                                 i++;
-                                                if(enemigosColocados.contains(btEnemy[(i + h)-1 ][j])){
+                                                if (enemigosColocados.contains(btEnemy[(i + h) - 1][j])) {
 
-                                                }else{
-                                                    enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
-                                                    direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                                    s=i;
-                                                    s2=j;
+                                                } else {
+                                                    enemigosColocados.add(btEnemy[(i + h) - 1][j]);
+                                                    direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                    btEnemy[(i + h) - 1][j].setIcon(image);
+                                                    s =(i + h) - 1;
+                                                    s2 = j;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
                                                 }
                                             }
                                         } else {
-                                            if (btEnemy[x][y]== btEnemy[i][j]) {
+                                            if (btEnemy[x][y] == btEnemy[i][j]) {
+                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                                btEnemy[(i)][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i][j]);
-
-
+                                                s =i;
+                                                s2 = j;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
+                                                btEnemy[i - h][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i - h][j]);
+                                                s =i - h;
+                                                s2 = j;
+                                                posicionx[x1]=s;
+                                                posiciony[x1]=s2;
+                                                x1++;
                                             }
                                         }
                                     }
@@ -420,72 +479,87 @@ public class GUI_Enemy extends JFrame{
                                 }
                             }
                         }
-                    }else{
-                        if(fragatas==true){
-                            //System.out.println("4");
+                    } else {
+                        if (fragatas == true) {
                             for (int h = 0; h < nbarcos; h++) {
                                 for (int i = 0; i < btEnemy.length; i++) {
                                     for (int j = 0; j < btEnemy[i].length; j++) {
-                                        if (j < (10 - nbarcos)+1) {
+                                        if (j < (10 - nbarcos) + 1) {
                                             if (btEnemy[x][y] == btEnemy[i][j]) {
-
-
-                                                if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                                }else{
-
+                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                                if (enemigosColocados.contains(btEnemy[i][j])) {
+                                                } else {
                                                     enemigosColocados.add(btEnemy[i][j]);
                                                     direcciones.add(btEnemy[i][j].toString());
+                                                    btEnemy[i][j].setIcon(image);
 
-                                                    s=i;
-                                                    s2=j;
+                                                    s =i;
+                                                    s2 = j;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
                                                 }
-
-
                                                 j++;
-                                                if(enemigosColocados.contains(btEnemy[i][(h + j)-1])){
+                                                if (enemigosColocados.contains(btEnemy[i][(h + j) - 1])) {
 
-                                                }else{
-                                                    enemigosColocados.add(btEnemy[i][(h + j)-1]);
-                                                    direcciones.add(btEnemy[i][(h + j)-1].toString());
-                                                    s=i;
-                                                    s2=j;
+                                                } else {
+                                                    enemigosColocados.add(btEnemy[i][(h + j) - 1]);
+                                                    direcciones.add(btEnemy[i][(h + j) - 1].toString());
+                                                    s =i;
+                                                    s2 = (h + j) - 1;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
                                                 }
-
-
+                                                btEnemy[i][(h + j) - 1].setIcon(image);
                                             }
+                                        } else {
+                                            if (i < (10 - nbarcos) + 1) {
+                                                if (btEnemy[x][y] == btEnemy[i][j]) {
+                                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                                    if (enemigosColocados.contains(btEnemy[i][j])) {
 
-
-                                        }else{
-                                            if (i <(10 - nbarcos)+1 ) {
-                                                if (btEnemy[x][y]== btEnemy[i][j]) {
-
-
-                                                    if(enemigosColocados.contains(btEnemy[i][j])){
-
-                                                    }else{
+                                                    } else {
                                                         enemigosColocados.add(btEnemy[i][j]);
                                                         direcciones.add(btEnemy[i][j].toString());
-                                                        s=i;
-                                                        s2=j;
+                                                        btEnemy[x][y].setIcon(image);
+                                                        s =i;
+                                                        s2 = j;
+                                                        posicionx[x1]=s;
+                                                        posiciony[x1]=s2;
+                                                        x1++;
                                                     }
                                                     i++;
-                                                    if(enemigosColocados.contains(btEnemy[(i + h)-1 ][j])){
+                                                    if (enemigosColocados.contains(btEnemy[(i + h) - 1][j])) {
 
-                                                    }else{
-                                                        enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
-                                                        direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                                        btEnemy[(i + h)-1 ][j].setIcon(image);
-                                                        s=i;
-                                                        s2=j;
+                                                    } else {
+                                                        enemigosColocados.add(btEnemy[(i + h) - 1][j]);
+                                                        direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                        btEnemy[(i + h) - 1][j].setIcon(image);
+                                                        s =(i + h) - 1;
+                                                        s2 = j;
+                                                        posicionx[x1]=s;
+                                                        posiciony[x1]=s2;
+                                                        x1++;
                                                     }
                                                 }
                                             } else {
-                                                if (btEnemy[x][y]== btEnemy[i][j]) {
+                                                if (btEnemy[x][y] == btEnemy[i][j]) {
+                                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                                                    btEnemy[(i)][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i][j]);
-
-
+                                                    s =i;
+                                                    s2 = j;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
+                                                    btEnemy[i - h][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i - h][j]);
+                                                    s =i - h;
+                                                    s2 = j;
+                                                    posicionx[x1]=s;
+                                                    posiciony[x1]=s2;
+                                                    x1++;
                                                 }
                                             }
                                         }
@@ -496,21 +570,12 @@ public class GUI_Enemy extends JFrame{
                         }
                     }
                 }
-            }
-
-            for (JButton bt:
-                    enemigosColocados) {
-                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-                bt.setIcon(image);
             }
 
             tamBarco(nbarcos);
             setInfo.getBarcos(enemigosColocados);
+
         }
-
-
-
-
     }
 
     private void initGUI(){
