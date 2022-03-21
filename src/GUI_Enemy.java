@@ -18,16 +18,16 @@ public class GUI_Enemy extends JFrame{
     private Escucha escucha;
     BarcosGuardados setInfo=new BarcosGuardados();
     private static boolean portaaviones,submarino,destructores,fragatas;
-    private static int porta=1,subma=2,destruc=3,fragata=4;
+    private static int porta=1, sub =2, des =3, fra =4;
     public static ArrayList<JButton> enemigosColocados =new ArrayList<JButton>();
-    public static ArrayList<String> direcciones =new ArrayList<String>();
+    public static ArrayList<String> direccionBarco =new ArrayList<String>();
     private int nbarcos;
-    public static int s,s2;
+    public static int c, c2;
     private int x1=0;
     private ImageIcon fondos;
     private JLabel fondo;
-    public static int posicionx[]=new int[20];
-    public static int posiciony[]=new int[20];
+    public static int valorX[]=new int[20];
+    public static int valorY[]=new int[20];
 
     public boolean verificarBarcoHorizontal(Object botonP) {
         boolean tieneBarco = false;
@@ -77,11 +77,11 @@ public class GUI_Enemy extends JFrame{
 
     public int[] getPosicionX(){
 
-        return posicionx;
+        return valorX;
     }
     public int[] getPosiciony(){
 
-        return posiciony;
+        return valorY;
     }
 
     public GUI_Enemy()  {
@@ -139,7 +139,7 @@ public class GUI_Enemy extends JFrame{
         for (int j = 0; j< btEnemy.length; j++){
             for (int i = 0; i< btEnemy[j].length; i++){
 
-                if(direcciones.contains(btEnemy[i][j].toString())){
+                if(direccionBarco.contains(btEnemy[i][j].toString())){
 
 
                     image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
@@ -161,10 +161,10 @@ public class GUI_Enemy extends JFrame{
             submarino=true;
             colocarBarcosEnemigos();
         }else{
-            if(submarino==true&&subma!=0){
-                subma--;
+            if(submarino==true&& sub !=0){
+                sub--;
 
-                if(subma==0){
+                if(sub ==0){
                     this.nbarcos=num-1;
                     submarino=false;
                     destructores=true;
@@ -172,9 +172,9 @@ public class GUI_Enemy extends JFrame{
                 }
                 colocarBarcosEnemigos();
             }else{
-                if(destructores==true&&destruc!=0){
-                    destruc--;
-                    if(destruc==0){
+                if(destructores==true&& des !=0){
+                    des--;
+                    if(des ==0){
                         this.nbarcos=num-1;
                         destructores=false;
                         fragatas=true;
@@ -182,9 +182,9 @@ public class GUI_Enemy extends JFrame{
                     }
                     colocarBarcosEnemigos();
                 }else{
-                    if(fragatas==true&&fragata!=0){
-                        fragata--;
-                        if(fragata==0){
+                    if(fragatas==true&& fra !=0){
+                        fra--;
+                        if(fra ==0){
                             this.nbarcos=num-1;
                             fragatas=false;
 
@@ -228,12 +228,12 @@ public class GUI_Enemy extends JFrame{
 
                                     } else {
                                         enemigosColocados.add(btEnemy[i][j]);
-                                        direcciones.add(btEnemy[i][j].toString());
+                                        direccionBarco.add(btEnemy[i][j].toString());
                                         btEnemy[i][j].setIcon(image);
-                                        s = i;
-                                        s2 = j;
-                                        posicionx[x1]=s;
-                                        posiciony[x1]=s2;
+                                        c = i;
+                                        c2 = j;
+                                        valorX[x1]= c;
+                                        valorY[x1]= c2;
                                         x1++;
                                     }
                                     j++;
@@ -241,11 +241,11 @@ public class GUI_Enemy extends JFrame{
 
                                     } else {
                                         enemigosColocados.add(btEnemy[i][(h + j) - 1]);
-                                        direcciones.add(btEnemy[i][(h + j) - 1].toString());
-                                        s = i;
-                                        s2 =( h + j) - 1;
-                                        posicionx[x1]=s;
-                                        posiciony[x1]=s2;
+                                        direccionBarco.add(btEnemy[i][(h + j) - 1].toString());
+                                        c = i;
+                                        c2 =( h + j) - 1;
+                                        valorX[x1]= c;
+                                        valorY[x1]= c2;
                                         x1++;
                                     }
                                     btEnemy[i][(h + j) - 1].setIcon(image);
@@ -261,12 +261,12 @@ public class GUI_Enemy extends JFrame{
                                         if (enemigosColocados.contains(btEnemy[i][j])) {
                                         } else {
                                             enemigosColocados.add(btEnemy[i][j]);
-                                            direcciones.add(btEnemy[i][j].toString());
+                                            direccionBarco.add(btEnemy[i][j].toString());
                                             btEnemy[x][y].setIcon(image);
-                                            s = i;
-                                            s2 = j;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            c = i;
+                                            c2 = j;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                         }
                                         i++;
@@ -274,12 +274,12 @@ public class GUI_Enemy extends JFrame{
 
                                         } else {
                                             enemigosColocados.add(btEnemy[(i + h) - 1][j]);
-                                            direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                            direccionBarco.add(btEnemy[(i + h) - 1][j].toString());
                                             btEnemy[(i + h) - 1][j].setIcon(image);
-                                            s = (i + h) - 1;
-                                            s2 = j;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            c = (i + h) - 1;
+                                            c2 = j;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                         }
                                     }
@@ -288,17 +288,17 @@ public class GUI_Enemy extends JFrame{
                                         image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                                         btEnemy[(i)][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i][j]);
-                                        s = i;
-                                        s2 = j;
-                                        posicionx[x1]=s;
-                                        posiciony[x1]=s2;
+                                        c = i;
+                                        c2 = j;
+                                        valorX[x1]= c;
+                                        valorY[x1]= c2;
                                         x1++;
                                         btEnemy[i - h][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i - h][j]);
-                                        s = i - h;
-                                        s2 = j;
-                                        posicionx[x1]=s;
-                                        posiciony[x1]=s2;
+                                        c = i - h;
+                                        c2 = j;
+                                        valorX[x1]= c;
+                                        valorY[x1]= c2;
                                         x1++;
                                     }
                                 }
@@ -318,12 +318,12 @@ public class GUI_Enemy extends JFrame{
                                         if (enemigosColocados.contains(btEnemy[i][j])) {
                                         } else {
                                             enemigosColocados.add(btEnemy[i][j]);
-                                            direcciones.add(btEnemy[i][j].toString());
+                                            direccionBarco.add(btEnemy[i][j].toString());
                                             btEnemy[i][j].setIcon(image);
-                                            s = i;
-                                            s2 = j;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            c = i;
+                                            c2 = j;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                         }
                                         j++;
@@ -331,11 +331,11 @@ public class GUI_Enemy extends JFrame{
 
                                         } else {
                                             enemigosColocados.add(btEnemy[i][(h + j) - 1]);
-                                            direcciones.add(btEnemy[i][(h + j) - 1].toString());
-                                            s = i;
-                                            s2 = (h + j) - 1;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            direccionBarco.add(btEnemy[i][(h + j) - 1].toString());
+                                            c = i;
+                                            c2 = (h + j) - 1;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                         }
                                         btEnemy[i][(h + j) - 1].setIcon(image);
@@ -347,24 +347,24 @@ public class GUI_Enemy extends JFrame{
                                             if (enemigosColocados.contains(btEnemy[i][j])) {
                                             } else {
                                                 enemigosColocados.add(btEnemy[i][j]);
-                                                direcciones.add(btEnemy[i][j].toString());
+                                                direccionBarco.add(btEnemy[i][j].toString());
                                                 btEnemy[x][y].setIcon(image);
-                                                s = i;
-                                                s2 = j;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                c = i;
+                                                c2 = j;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                             }
                                             i++;
                                             if (enemigosColocados.contains(btEnemy[(i + h) - 1][j])) {
                                             } else {
                                                 enemigosColocados.add(btEnemy[(i + h) - 1][j]);
-                                                direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                direccionBarco.add(btEnemy[(i + h) - 1][j].toString());
                                                 btEnemy[(i + h) - 1][j].setIcon(image);
-                                                s = (i + h) - 1;
-                                                s2 = j;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                c = (i + h) - 1;
+                                                c2 = j;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                             }
                                         }
@@ -373,17 +373,17 @@ public class GUI_Enemy extends JFrame{
                                             image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                                             btEnemy[(i)][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i][j]);
-                                            s =i;
-                                            s2 = j;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            c =i;
+                                            c2 = j;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                             btEnemy[i - h][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i - h][j]);
-                                            s = i - h ;
-                                            s2 = j;
-                                            posicionx[x1]=s;
-                                            posiciony[x1]=s2;
+                                            c = i - h ;
+                                            c2 = j;
+                                            valorX[x1]= c;
+                                            valorY[x1]= c2;
                                             x1++;
                                         }
                                     }
@@ -403,13 +403,13 @@ public class GUI_Enemy extends JFrame{
                                             if (enemigosColocados.contains(btEnemy[i][j])) {
                                             } else {
                                                 enemigosColocados.add(btEnemy[i][j]);
-                                                direcciones.add(btEnemy[i][j].toString());
+                                                direccionBarco.add(btEnemy[i][j].toString());
                                                 btEnemy[i][j].setIcon(image);
 
-                                                s =i;
-                                                s2 = j;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                c =i;
+                                                c2 = j;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                             }
                                             j++;
@@ -417,11 +417,11 @@ public class GUI_Enemy extends JFrame{
 
                                             } else {
                                                 enemigosColocados.add(btEnemy[i][(h + j) - 1]);
-                                                direcciones.add(btEnemy[i][(h + j) - 1].toString());
-                                                s =i;
-                                                s2 = (h + j) - 1;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                direccionBarco.add(btEnemy[i][(h + j) - 1].toString());
+                                                c =i;
+                                                c2 = (h + j) - 1;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                             }
                                             btEnemy[i][(h + j) - 1].setIcon(image);
@@ -433,12 +433,12 @@ public class GUI_Enemy extends JFrame{
                                                 if (enemigosColocados.contains(btEnemy[i][j])) {
                                                 } else {
                                                     enemigosColocados.add(btEnemy[i][j]);
-                                                    direcciones.add(btEnemy[i][j].toString());
+                                                    direccionBarco.add(btEnemy[i][j].toString());
                                                     btEnemy[x][y].setIcon(image);
-                                                    s =i;
-                                                    s2 = j;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    c =i;
+                                                    c2 = j;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                 }
                                                 i++;
@@ -446,12 +446,12 @@ public class GUI_Enemy extends JFrame{
 
                                                 } else {
                                                     enemigosColocados.add(btEnemy[(i + h) - 1][j]);
-                                                    direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                    direccionBarco.add(btEnemy[(i + h) - 1][j].toString());
                                                     btEnemy[(i + h) - 1][j].setIcon(image);
-                                                    s =(i + h) - 1;
-                                                    s2 = j;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    c =(i + h) - 1;
+                                                    c2 = j;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                 }
                                             }
@@ -460,17 +460,17 @@ public class GUI_Enemy extends JFrame{
                                                 image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                                                 btEnemy[(i)][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i][j]);
-                                                s =i;
-                                                s2 = j;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                c =i;
+                                                c2 = j;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                                 btEnemy[i - h][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i - h][j]);
-                                                s =i - h;
-                                                s2 = j;
-                                                posicionx[x1]=s;
-                                                posiciony[x1]=s2;
+                                                c =i - h;
+                                                c2 = j;
+                                                valorX[x1]= c;
+                                                valorY[x1]= c2;
                                                 x1++;
                                             }
                                         }
@@ -490,13 +490,13 @@ public class GUI_Enemy extends JFrame{
                                                 if (enemigosColocados.contains(btEnemy[i][j])) {
                                                 } else {
                                                     enemigosColocados.add(btEnemy[i][j]);
-                                                    direcciones.add(btEnemy[i][j].toString());
+                                                    direccionBarco.add(btEnemy[i][j].toString());
                                                     btEnemy[i][j].setIcon(image);
 
-                                                    s =i;
-                                                    s2 = j;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    c =i;
+                                                    c2 = j;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                 }
                                                 j++;
@@ -504,11 +504,11 @@ public class GUI_Enemy extends JFrame{
 
                                                 } else {
                                                     enemigosColocados.add(btEnemy[i][(h + j) - 1]);
-                                                    direcciones.add(btEnemy[i][(h + j) - 1].toString());
-                                                    s =i;
-                                                    s2 = (h + j) - 1;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    direccionBarco.add(btEnemy[i][(h + j) - 1].toString());
+                                                    c =i;
+                                                    c2 = (h + j) - 1;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                 }
                                                 btEnemy[i][(h + j) - 1].setIcon(image);
@@ -521,12 +521,12 @@ public class GUI_Enemy extends JFrame{
 
                                                     } else {
                                                         enemigosColocados.add(btEnemy[i][j]);
-                                                        direcciones.add(btEnemy[i][j].toString());
+                                                        direccionBarco.add(btEnemy[i][j].toString());
                                                         btEnemy[x][y].setIcon(image);
-                                                        s =i;
-                                                        s2 = j;
-                                                        posicionx[x1]=s;
-                                                        posiciony[x1]=s2;
+                                                        c =i;
+                                                        c2 = j;
+                                                        valorX[x1]= c;
+                                                        valorY[x1]= c2;
                                                         x1++;
                                                     }
                                                     i++;
@@ -534,12 +534,12 @@ public class GUI_Enemy extends JFrame{
 
                                                     } else {
                                                         enemigosColocados.add(btEnemy[(i + h) - 1][j]);
-                                                        direcciones.add(btEnemy[(i + h) - 1][j].toString());
+                                                        direccionBarco.add(btEnemy[(i + h) - 1][j].toString());
                                                         btEnemy[(i + h) - 1][j].setIcon(image);
-                                                        s =(i + h) - 1;
-                                                        s2 = j;
-                                                        posicionx[x1]=s;
-                                                        posiciony[x1]=s2;
+                                                        c =(i + h) - 1;
+                                                        c2 = j;
+                                                        valorX[x1]= c;
+                                                        valorY[x1]= c2;
                                                         x1++;
                                                     }
                                                 }
@@ -548,17 +548,17 @@ public class GUI_Enemy extends JFrame{
                                                     image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
                                                     btEnemy[(i)][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i][j]);
-                                                    s =i;
-                                                    s2 = j;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    c =i;
+                                                    c2 = j;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                     btEnemy[i - h][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i - h][j]);
-                                                    s =i - h;
-                                                    s2 = j;
-                                                    posicionx[x1]=s;
-                                                    posiciony[x1]=s2;
+                                                    c =i - h;
+                                                    c2 = j;
+                                                    valorX[x1]= c;
+                                                    valorY[x1]= c2;
                                                     x1++;
                                                 }
                                             }
