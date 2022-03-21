@@ -46,6 +46,7 @@ public class GUI extends JFrame implements Runnable {
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
   public static ArrayList<JButton> btActivosM = new ArrayList<JButton>();
   private ImageIcon fondos;
+  private GUI_Enemy guiEnemy = new GUI_Enemy();
 
   /**
    * Constructor of GUI class
@@ -458,6 +459,26 @@ public class GUI extends JFrame implements Runnable {
     }
   }
 
+  public void colocarBarcos() {
+    BarcosGuardados barcosEnemigo = new BarcosGuardados();
+    for (int i = 0; i < 20; i++) {
+      for (int j = 0; j < 10; j++) {
+        for(int y=0;y<10;y++){
+          if(guiEnemy.getPosicionX()[i]==j && guiEnemy.getPosiciony()[i]==y){
+            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+            btEnemy[j][y].setIcon(image);
+            btActivosM.add( btEnemy[j][y]);
+            break;
+          }
+        }
+      }
+
+    }
+
+  }
+
+
+
   /**
    * inner class that extends an Adapter Class or implements Listeners used by GUI class
    */
@@ -474,7 +495,7 @@ public class GUI extends JFrame implements Runnable {
       }
       BarcosGuardados guardados = new BarcosGuardados();
       if (e.getSource() == tableroPc) {
-        GUI_Enemy guiEnemy = new GUI_Enemy();
+
         guardados.setcolocados(true);
         guiEnemy.setVisible(true);
 
@@ -483,6 +504,7 @@ public class GUI extends JFrame implements Runnable {
         JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
         iniciarCronometro();
         empezar.setEnabled(false);
+        colocarBarcos();
 
       }
 
