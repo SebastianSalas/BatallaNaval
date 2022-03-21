@@ -30,7 +30,7 @@ public class GUI extends JFrame implements Runnable {
           " ataque\n" +
           "el enemigo lo devolvera para hundir tus barcos";
   private Header headerProject;
-  private JLabel tiempo,mBarco,fondo;
+  private JLabel tiempo, mBarco, fondo;
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
   private Escucha escucha;
   private Escucha2 escuchaMouseListener;
@@ -38,9 +38,9 @@ public class GUI extends JFrame implements Runnable {
   private JButton[][] btBase;
   private JButton[][] btEnemy;
   private ImageIcon image;
-  public static int barco,barco2, por= 1, sub = 2, des = 3, fra = 4;
+  public static int barco, barco2, por = 1, sub = 2, des = 3, fra = 4;
   public static Boolean flag = true;
-  private int x,y;
+  private int x, y, botonMouse;
   private boolean p, s, d, f, cronometroActivo;
   private Thread hilo;
   private ArrayList<JButton> btActivos = new ArrayList<JButton>();
@@ -57,8 +57,8 @@ public class GUI extends JFrame implements Runnable {
     p = true;
     //Default JFrame configuration
     this.setTitle("The Title app");
-    fondos= new ImageIcon("src/resources/fondo.jpg");
-    fondo= new JLabel(fondos);
+    fondos = new ImageIcon("src/resources/fondo.jpg");
+    fondo = new JLabel(fondos);
     //this.setPreferredSize(new Dimension(1095,528));
     this.setBackground(new Color(255, 255, 255));
     this.setUndecorated(true);
@@ -71,11 +71,13 @@ public class GUI extends JFrame implements Runnable {
     this.getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                            Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                            Short.MAX_VALUE)
     );
   }
 
@@ -90,7 +92,7 @@ public class GUI extends JFrame implements Runnable {
     for (int j = 0; j < btBase.length; j++) {
       for (int i = 0; i < btBase[j].length; i++) {
         btBase[i][j] = new JButton();
-        btBase[i][j].setBackground(new Color(0,204,255));
+        btBase[i][j].setBackground(new Color(0, 204, 255));
         btBase[i][j].setBounds(x, y, 35, 33);
         btBase[i][j].addMouseListener(escuchaMouseListener);
         base.add(btBase[i][j], BorderLayout.CENTER);
@@ -107,7 +109,7 @@ public class GUI extends JFrame implements Runnable {
     for (int j = 0; j < btEnemy.length; j++) {
       for (int i = 0; i < btEnemy[j].length; i++) {
         btEnemy[i][j] = new JButton();
-        btEnemy[i][j].setBackground(new Color(0,204,255));
+        btEnemy[i][j].setBackground(new Color(0, 204, 255));
         btEnemy[i][j].setBounds(x, y, 35, 33);
         enemigo.add(btEnemy[i][j], BorderLayout.SOUTH);
         x += 35;
@@ -132,7 +134,7 @@ public class GUI extends JFrame implements Runnable {
     tiempo.setHorizontalAlignment(JLabel.CENTER);
     tiempo.setForeground(Color.black);
     tiempo.setOpaque(true);
-    tiempo.setBackground(new Color(255,255,255));
+    tiempo.setBackground(new Color(255, 255, 255));
     constraints.gridx = 0;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -143,11 +145,11 @@ public class GUI extends JFrame implements Runnable {
     base = new JPanel();
     base.setLayout(null);
     base.setPreferredSize(new Dimension(370, 350));
-    base.setBackground(new Color(255,255,255,0));
+    base.setBackground(new Color(255, 255, 255, 0));
     enemigo = new JPanel();
     enemigo.setLayout(null);
     enemigo.setPreferredSize(new Dimension(370, 350));
-    enemigo.setBackground(new Color(255,255,255,0));
+    enemigo.setBackground(new Color(255, 255, 255, 0));
     escucha = new Escucha();
     escuchaMouseListener = new Escucha2();
 
@@ -159,7 +161,7 @@ public class GUI extends JFrame implements Runnable {
     this.add(headerProject, constraints);
 
     ayuda = new JButton();
-    image=new ImageIcon("src/resources/question.png");
+    image = new ImageIcon("src/resources/question.png");
     ayuda.setIcon(image);
     ayuda.setBorderPainted(false);
     ayuda.setContentAreaFilled(false);
@@ -172,8 +174,8 @@ public class GUI extends JFrame implements Runnable {
     constraints.anchor = GridBagConstraints.LINE_START;
     this.add(ayuda, constraints);
 
-    salir = new JButton( );
-    image=new ImageIcon("src/resources/power.png");
+    salir = new JButton();
+    image = new ImageIcon("src/resources/power.png");
     salir.setIcon(image);
     salir.setBorderPainted(false);
     salir.setContentAreaFilled(false);
@@ -187,33 +189,33 @@ public class GUI extends JFrame implements Runnable {
     this.add(salir, constraints);
 
 
-
     panelBarcos = new JPanel();
     panelBarcos.setPreferredSize(new Dimension(165, 200));
-    panelBarcos.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255, 255, 255), 2, true), "MIS BARCOS",
-            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 14),new Color(255,255,255)));
-    panelBarcos.setBackground(new Color(255,255,255,0));
+    panelBarcos.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255, 255, 255), 2, true), "MIS " +
+                    "BARCOS",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 14), new Color(255, 255, 255)));
+    panelBarcos.setBackground(new Color(255, 255, 255, 0));
     constraints.gridx = 0;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
-    constraints.gridheight=1;
+    constraints.gridheight = 1;
     constraints.fill = GridBagConstraints.NONE;
     constraints.anchor = GridBagConstraints.SOUTH;
     add(panelBarcos, constraints);
-    mBarco=new JLabel();
+    mBarco = new JLabel();
     image = new ImageIcon(getClass().getResource("/resources/barcos.jpg"));
     mBarco.setIcon(image);
     panelBarcos.add(mBarco);
 
 
     tableroPc = new JButton("Mostrar Tablero");
-    image=new ImageIcon("src/resources/map.png");
+    image = new ImageIcon("src/resources/map.png");
     tableroPc.setIcon(image);
     tableroPc.setBorderPainted(false);
     tableroPc.setContentAreaFilled(false);
     tableroPc.setFocusable(false);
     tableroPc.setFont(new Font("Tahoma", 1, 14));
-    tableroPc.setForeground(new Color(255,255,255));
+    tableroPc.setForeground(new Color(255, 255, 255));
     tableroPc.addActionListener(escucha);
     constraints.gridx = 2;
     constraints.gridy = 3;
@@ -223,13 +225,13 @@ public class GUI extends JFrame implements Runnable {
     this.add(tableroPc, constraints);
 
     empezar = new JButton("Empezar");
-    image=new ImageIcon("src/resources/play.png");
+    image = new ImageIcon("src/resources/play.png");
     empezar.setIcon(image);
     empezar.setBorderPainted(false);
     empezar.setContentAreaFilled(false);
     empezar.setFocusable(false);
     empezar.setFont(new Font("Tahoma", 1, 14));
-    empezar.setForeground(new Color(255,255,255));
+    empezar.setForeground(new Color(255, 255, 255));
     empezar.addActionListener(escucha);
     constraints.gridx = 1;
     constraints.gridy = 3;
@@ -240,9 +242,9 @@ public class GUI extends JFrame implements Runnable {
 
     panelMiTablero = new JPanel();
     panelMiTablero.setPreferredSize(new Dimension(410, 390));
-    panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255,255,255), 3, true), "BASE",
-            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15),new Color(255,255,255)));
-    panelMiTablero.setBackground(new Color(255,255,255,0));
+    panelMiTablero.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255, 255, 255), 3, true), "BASE",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15), new Color(255, 255, 255)));
+    panelMiTablero.setBackground(new Color(255, 255, 255, 0));
     constraints.gridx = 1;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -254,9 +256,9 @@ public class GUI extends JFrame implements Runnable {
 
     panelTableroPc = new JPanel();
     panelTableroPc.setPreferredSize(new Dimension(410, 390));
-    panelTableroPc.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255,255,255), 3, true), "MAPA",
-            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15),new Color(255,255,255)));
-    panelTableroPc.setBackground(new Color(255,255,255,0));
+    panelTableroPc.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(255, 255, 255), 3, true), "MAPA",
+            TitledBorder.CENTER, TitledBorder.TOP, new Font("Tahoma", 1, 15), new Color(255, 255, 255)));
+    panelTableroPc.setBackground(new Color(255, 255, 255, 0));
     constraints.gridx = 2;
     constraints.gridy = 2;
     constraints.gridwidth = 1;
@@ -267,7 +269,6 @@ public class GUI extends JFrame implements Runnable {
     add(panelTableroPc, constraints);
 
   }
-
 
 
   /**
@@ -345,7 +346,7 @@ public class GUI extends JFrame implements Runnable {
 
         if (milesimas < 10) mil = "00" + milesimas;
         else if (milesimas < 100) mil = "0" + milesimas;
-        tiempo.setText("Tiempo: "+min + ":" + seg);
+        tiempo.setText("Tiempo: " + min + ":" + seg);
       }
     } catch (Exception e) {
 
@@ -359,44 +360,113 @@ public class GUI extends JFrame implements Runnable {
 
     for (int i = 0; i < btBase.length; i++) {
       for (int j = 0; j < btBase[i].length; j++) {
-          if (i < 10 - barco && j >= 10 - barco) {
-            if (botonP == btBase[i][j]) {
-              for (int h = 0; h < barco; h++) {
-              i++;
+        if (botonP == btBase[i][j]) {
+          //System.out.println("INICIO      X= " + i + " Y= " + j);
+        }
+        if (i < 10 - barco && j >= 10 - barco) {
+          if (botonP == btBase[i][j]) {
+            //System.out.println("X= " + i + " Y= " + j);
+            System.out.println("entra1 " + (10 - barco));
+            for (int h = 0; h < barco; h++) {
+              //System.out.println("x= "+i+"y= "+j);
+
               if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
                 tieneBarco = true;
                 break;
               } else {
                 tieneBarco = false;
               }
+              i++;
             }
           }
         }
       }
     }
+    for (int i = 0; i < btBase.length; i++) {
+      for (int j = 0; j < btBase[i].length; j++) {
+        System.out.println("INICIO2      X= " + i + " Y= " + j);
+        if (tieneBarco == true) {
+          break;
+        } else {
+          if (botonP == btBase[i][j]) {
+            System.out.println("INICIO2      X= " + i + " Y= " + j);
+          }
+          if (botonP == btBase[i][j]) {
+
+            if (i > 10 - barco && j > 10 - barco) {
+              if (i > 10 - barco) {
+                for (int h = 0; h < barco; h++) {
+                  if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+                    tieneBarco = true;
+                    break;
+                  } else {
+                    tieneBarco = false;
+                  }
+                  i--;
+                }
+              }
+            } else if (i <= 10 - barco && j >= 10 - barco) {
+
+              for (int h = 0; h < barco; h++) {
+                if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+                  tieneBarco = true;
+                  break;
+                } else {
+                  tieneBarco = false;
+                }
+                i++;
+              }
+              if (tieneBarco == false) {
+                i = i - 4;
+              }
+            }
+          }
+        }
+
+      }
+    }
     return tieneBarco;
   }
+
   public boolean verificarBarcoVertical(Object botonP) {
     boolean tieneBarco = false;
 
     for (int i = 0; i < btBase.length; i++) {
       for (int j = 0; j < btBase[i].length; j++) {
-        if (j < 10 - barco) {
-          if (botonP == btBase[i][j]) {
+        if (botonP == btBase[i][j]) {
+          if (j <= 10 - barco) {
+            System.out.println("entra3");
             for (int h = 0; h < barco; h++) {
-              j++;
+              //System.out.println("x= " + i + "y= " + j);
               if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
                 tieneBarco = true;
                 break;
               } else {
                 tieneBarco = false;
               }
+              j++;
             }
           }
+
         }
       }
     }
     return tieneBarco;
+  }
+
+  public void cambiarBarcoAHorizontal(Object botonP) {
+    for (int h = 0; h < 1; h++) {
+      for (int i = 0; i < btBase.length; i++) {
+        for (int j = 0; j < btBase[i].length; j++) {
+          if (botonP == btBase[i][j]) {
+            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+            btBase[i][j].setIcon(image);
+            j++;
+            btBase[i][(h + j) - 1].setIcon(image);
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -413,7 +483,7 @@ public class GUI extends JFrame implements Runnable {
       if (e.getSource() == ayuda) {
         JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
       }
-      BarcosGuardados guardados=new BarcosGuardados();
+      BarcosGuardados guardados = new BarcosGuardados();
       if (e.getSource() == tableroPc) {
         GUI_Enemy guiEnemy = new GUI_Enemy();
         guardados.setcolocados(true);
@@ -421,7 +491,7 @@ public class GUI extends JFrame implements Runnable {
 
       }
       if (e.getSource() == empezar) {
-        JOptionPane.showMessageDialog(null,"Colocando barcos enemigos...","Cargando",JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
         iniciarCronometro();
         empezar.setEnabled(false);
 
@@ -435,14 +505,17 @@ public class GUI extends JFrame implements Runnable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
       if (e.getButton() == 1) {
         boolean tieneBarcoV, tieneBarcoH;
 
         tieneBarcoV = verificarBarcoVertical(e.getSource());
         tieneBarcoH = verificarBarcoHorizontal(e.getSource());
+        System.out.println(tieneBarcoH + "H" + "          V" + tieneBarcoV);
 
         if (tieneBarcoH == true || tieneBarcoV == true) {
-          JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.","Error",JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.", "Error",
+                  JOptionPane.ERROR_MESSAGE);
 
         } else {
           if (barco == 1) {
@@ -462,10 +535,10 @@ public class GUI extends JFrame implements Runnable {
             }
             cambiarTamBarco(barco);
           } else {
-            for (int h = 0; h < barco-1; h++) {
+            for (int h = 0; h < barco - 1; h++) {
               for (int i = 0; i < btBase.length; i++) {
                 for (int j = 0; j < btBase[i].length; j++) {
-                  if (j < (10 - barco)+1) {
+                  if (j < (10 - barco) + 1) {
                     if (e.getSource() == btBase[i][j]) {
                       btActivos.add(btBase[i][j]);
                       j++;
@@ -493,6 +566,7 @@ public class GUI extends JFrame implements Runnable {
 
         }
       } else {
+        botonMouse = e.getButton();
         System.out.println("xd");
       }
     }
@@ -510,7 +584,6 @@ public class GUI extends JFrame implements Runnable {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
       if (barco == 0) {
         for (int h = 0; h < 1; h++) {
           for (int i = 0; i < btBase.length; i++) {

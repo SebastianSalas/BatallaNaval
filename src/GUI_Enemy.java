@@ -122,7 +122,6 @@ public class GUI_Enemy extends JFrame{
 
     private void mostrarbarcos(){
 
-
         for (int j = 0; j< btEnemy.length; j++){
             for (int i = 0; i< btEnemy[j].length; i++){
 
@@ -197,7 +196,7 @@ public class GUI_Enemy extends JFrame{
         BarcoV = verificarBarcoVertical(btEnemy[x][y]);
         BarcoH = verificarBarcoHorizontal(btEnemy[x][y]);
         if(BarcoH == true || BarcoV == true){
-            System.out.println("sobrepesto");
+            //System.out.println("sobrepesto");
             colocarBarcosEnemigos();
         }else{
             if(portaaviones==true){
@@ -208,7 +207,6 @@ public class GUI_Enemy extends JFrame{
                             if (j < (10 - nbarcos)+1) {
                                 if (btEnemy[x][y] == btEnemy[i][j]) {
 
-                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
                                     if(enemigosColocados.contains(btEnemy[i][j])){
 
@@ -216,7 +214,6 @@ public class GUI_Enemy extends JFrame{
 
                                         enemigosColocados.add(btEnemy[i][j]);
                                         direcciones.add(btEnemy[i][j].toString());
-                                        btEnemy[i][j].setIcon(image);
 
                                         s=i;
                                         s2=j;
@@ -232,7 +229,6 @@ public class GUI_Enemy extends JFrame{
                                         s=i;
                                         s2=j;
                                     }
-                                    btEnemy[i][(h + j)-1].setIcon(image);
 
 
                                 }
@@ -251,7 +247,6 @@ public class GUI_Enemy extends JFrame{
                                         }else{
                                             enemigosColocados.add(btEnemy[i][j]);
                                             direcciones.add(btEnemy[i][j].toString());
-                                            btEnemy[x][y].setIcon(image);
                                             s=i;
                                             s2=j;
                                         }
@@ -261,19 +256,14 @@ public class GUI_Enemy extends JFrame{
                                         }else{
                                             enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
                                             direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                            btEnemy[(i + h)-1 ][j].setIcon(image);
                                             s=i;
                                             s2=j;
                                         }
                                     }
                                 } else {
                                     if (btEnemy[x][y]== btEnemy[i][j]) {
-                                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-                                        btEnemy[(i) ][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i][j]);
 
-
-                                        btEnemy[i - h][j].setIcon(image);
                                         enemigosColocados.add(btEnemy[i - h][j]);
                                     }
                                 }
@@ -284,14 +274,13 @@ public class GUI_Enemy extends JFrame{
                 }
             }else{
                 if(submarino==true){
-                    System.out.println("2");
+                    //System.out.println("2");
                     for (int h = 0; h < nbarcos; h++) {
                         for (int i = 0; i < btEnemy.length; i++) {
                             for (int j = 0; j < btEnemy[i].length; j++) {
                                 if (j < (10 - nbarcos)+1) {
                                     if (btEnemy[x][y] == btEnemy[i][j]) {
 
-                                        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
                                         if(enemigosColocados.contains(btEnemy[i][j])){
 
@@ -299,7 +288,6 @@ public class GUI_Enemy extends JFrame{
 
                                             enemigosColocados.add(btEnemy[i][j]);
                                             direcciones.add(btEnemy[i][j].toString());
-                                            btEnemy[i][j].setIcon(image);
 
                                             s=i;
                                             s2=j;
@@ -315,7 +303,6 @@ public class GUI_Enemy extends JFrame{
                                             s=i;
                                             s2=j;
                                         }
-                                        btEnemy[i][(h + j)-1].setIcon(image);
 
 
                                     }
@@ -326,7 +313,6 @@ public class GUI_Enemy extends JFrame{
                                         if (btEnemy[x][y]== btEnemy[i][j]) {
 
 
-                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
 
                                             if(enemigosColocados.contains(btEnemy[i][j])){
@@ -334,7 +320,6 @@ public class GUI_Enemy extends JFrame{
                                             }else{
                                                 enemigosColocados.add(btEnemy[i][j]);
                                                 direcciones.add(btEnemy[i][j].toString());
-                                                btEnemy[x][y].setIcon(image);
                                                 s=i;
                                                 s2=j;
                                             }
@@ -344,19 +329,15 @@ public class GUI_Enemy extends JFrame{
                                             }else{
                                                 enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
                                                 direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                                btEnemy[(i + h)-1 ][j].setIcon(image);
                                                 s=i;
                                                 s2=j;
                                             }
                                         }
                                     } else {
                                         if (btEnemy[x][y]== btEnemy[i][j]) {
-                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-                                            btEnemy[(i) ][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i][j]);
 
 
-                                            btEnemy[i - h][j].setIcon(image);
                                             enemigosColocados.add(btEnemy[i - h][j]);
                                         }
                                     }
@@ -367,14 +348,13 @@ public class GUI_Enemy extends JFrame{
                     }
                 }else{
                     if(destructores==true){
-                        System.out.println("3");
+                        //System.out.println("3");
                         for (int h = 0; h < nbarcos; h++) {
                             for (int i = 0; i < btEnemy.length; i++) {
                                 for (int j = 0; j < btEnemy[i].length; j++) {
                                     if (j < (10 - nbarcos)+1) {
                                         if (btEnemy[x][y] == btEnemy[i][j]) {
 
-                                            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
                                             if(enemigosColocados.contains(btEnemy[i][j])){
 
@@ -382,7 +362,6 @@ public class GUI_Enemy extends JFrame{
 
                                                 enemigosColocados.add(btEnemy[i][j]);
                                                 direcciones.add(btEnemy[i][j].toString());
-                                                btEnemy[i][j].setIcon(image);
 
                                                 s=i;
                                                 s2=j;
@@ -398,7 +377,6 @@ public class GUI_Enemy extends JFrame{
                                                 s=i;
                                                 s2=j;
                                             }
-                                            btEnemy[i][(h + j)-1].setIcon(image);
 
 
                                         }
@@ -409,7 +387,6 @@ public class GUI_Enemy extends JFrame{
                                             if (btEnemy[x][y]== btEnemy[i][j]) {
 
 
-                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
 
                                                 if(enemigosColocados.contains(btEnemy[i][j])){
@@ -417,7 +394,6 @@ public class GUI_Enemy extends JFrame{
                                                 }else{
                                                     enemigosColocados.add(btEnemy[i][j]);
                                                     direcciones.add(btEnemy[i][j].toString());
-                                                    btEnemy[x][y].setIcon(image);
                                                     s=i;
                                                     s2=j;
                                                 }
@@ -427,19 +403,15 @@ public class GUI_Enemy extends JFrame{
                                                 }else{
                                                     enemigosColocados.add(btEnemy[(i + h)-1 ][j]);
                                                     direcciones.add(btEnemy[(i + h)-1 ][j].toString());
-                                                    btEnemy[(i + h)-1 ][j].setIcon(image);
                                                     s=i;
                                                     s2=j;
                                                 }
                                             }
                                         } else {
                                             if (btEnemy[x][y]== btEnemy[i][j]) {
-                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-                                                btEnemy[(i) ][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i][j]);
 
 
-                                                btEnemy[i - h][j].setIcon(image);
                                                 enemigosColocados.add(btEnemy[i - h][j]);
                                             }
                                         }
@@ -450,14 +422,13 @@ public class GUI_Enemy extends JFrame{
                         }
                     }else{
                         if(fragatas==true){
-                            System.out.println("4");
+                            //System.out.println("4");
                             for (int h = 0; h < nbarcos; h++) {
                                 for (int i = 0; i < btEnemy.length; i++) {
                                     for (int j = 0; j < btEnemy[i].length; j++) {
                                         if (j < (10 - nbarcos)+1) {
                                             if (btEnemy[x][y] == btEnemy[i][j]) {
 
-                                                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
 
                                                 if(enemigosColocados.contains(btEnemy[i][j])){
 
@@ -465,7 +436,6 @@ public class GUI_Enemy extends JFrame{
 
                                                     enemigosColocados.add(btEnemy[i][j]);
                                                     direcciones.add(btEnemy[i][j].toString());
-                                                    btEnemy[i][j].setIcon(image);
 
                                                     s=i;
                                                     s2=j;
@@ -481,7 +451,6 @@ public class GUI_Enemy extends JFrame{
                                                     s=i;
                                                     s2=j;
                                                 }
-                                                btEnemy[i][(h + j)-1].setIcon(image);
 
 
                                             }
@@ -492,15 +461,11 @@ public class GUI_Enemy extends JFrame{
                                                 if (btEnemy[x][y]== btEnemy[i][j]) {
 
 
-                                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-
-
                                                     if(enemigosColocados.contains(btEnemy[i][j])){
 
                                                     }else{
                                                         enemigosColocados.add(btEnemy[i][j]);
                                                         direcciones.add(btEnemy[i][j].toString());
-                                                        btEnemy[x][y].setIcon(image);
                                                         s=i;
                                                         s2=j;
                                                     }
@@ -517,12 +482,9 @@ public class GUI_Enemy extends JFrame{
                                                 }
                                             } else {
                                                 if (btEnemy[x][y]== btEnemy[i][j]) {
-                                                    image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-                                                    btEnemy[(i) ][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i][j]);
 
 
-                                                    btEnemy[i - h][j].setIcon(image);
                                                     enemigosColocados.add(btEnemy[i - h][j]);
                                                 }
                                             }
@@ -534,6 +496,12 @@ public class GUI_Enemy extends JFrame{
                         }
                     }
                 }
+            }
+
+            for (JButton bt:
+                    enemigosColocados) {
+                image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+                bt.setIcon(image);
             }
 
             tamBarco(nbarcos);
