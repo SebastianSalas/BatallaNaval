@@ -357,20 +357,51 @@ public class GUI extends JFrame implements Runnable {
 
   public boolean verificarBarcoHorizontal(Object botonP) {
     boolean tieneBarco = false;
-
+    int flag = 0;
     for (int i = 0; i < btBase.length; i++) {
       for (int j = 0; j < btBase[i].length; j++) {
-        if (botonP == btBase[i][j]) {
-          //System.out.println("INICIO      X= " + i + " Y= " + j);
-        }
-        if (i < 10 - barco && j >= 10 - barco) {
+        if(i==10-barco && j>10-barco){
           if (botonP == btBase[i][j]) {
-            //System.out.println("X= " + i + " Y= " + j);
-            System.out.println("entra1 " + (10 - barco));
             for (int h = 0; h < barco; h++) {
               //System.out.println("x= "+i+"y= "+j);
 
               if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+
+                tieneBarco = true;
+                break;
+              } else {
+                tieneBarco = false;
+              }
+              i++;
+            }
+
+          }
+        }
+        if(flag==0) {
+          if (i == 9 && j > 10 - barco) {
+            if (botonP == btBase[i][j]) {
+              for (int h = 0; h < barco; h++) {
+                if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+                  tieneBarco = true;
+                  flag++;
+                  break;
+                } else {
+                  tieneBarco = false;
+                }
+                i--;
+                if (h == barco-1 || tieneBarco==true) {
+                  flag++;
+                }
+              }
+            }
+          }
+        }
+        if (i < 10 - barco && j >= 10 - barco) {
+          if (botonP == btBase[i][j]) {
+            for (int h = 0; h < barco; h++) {
+
+              if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
+
                 tieneBarco = true;
                 break;
               } else {
@@ -382,49 +413,7 @@ public class GUI extends JFrame implements Runnable {
         }
       }
     }
-    for (int i = 0; i < btBase.length; i++) {
-      for (int j = 0; j < btBase[i].length; j++) {
-        System.out.println("INICIO2      X= " + i + " Y= " + j);
-        if (tieneBarco == true) {
-          break;
-        } else {
-          if (botonP == btBase[i][j]) {
-            System.out.println("INICIO2      X= " + i + " Y= " + j);
-          }
-          if (botonP == btBase[i][j]) {
 
-            if (i > 10 - barco && j > 10 - barco) {
-              if (i > 10 - barco) {
-                for (int h = 0; h < barco; h++) {
-                  if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
-                    tieneBarco = true;
-                    break;
-                  } else {
-                    tieneBarco = false;
-                  }
-                  i--;
-                }
-              }
-            } else if (i <= 10 - barco && j >= 10 - barco) {
-
-              for (int h = 0; h < barco; h++) {
-                if (btActivos.contains(botonP) || btActivos.contains(btBase[i][j])) {
-                  tieneBarco = true;
-                  break;
-                } else {
-                  tieneBarco = false;
-                }
-                i++;
-              }
-              if (tieneBarco == false) {
-                i = i - 4;
-              }
-            }
-          }
-        }
-
-      }
-    }
     return tieneBarco;
   }
 
