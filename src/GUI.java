@@ -509,12 +509,13 @@ public class GUI extends JFrame implements Runnable {
 
         guardados.setcolocados(true);
         guiEnemy.setVisible(true);
-        colocarBarcos();
+
       }
       if (e.getSource() == empezar) {
         JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
         iniciarCronometro();
         empezar.setEnabled(false);
+        colocarBarcos();
 
       }
 
