@@ -375,6 +375,9 @@ public class GUI extends JFrame implements Runnable {
               }
               i++;
             }
+            if (tieneBarco==false){
+              i=i-barco;
+            }
 
           }
         }
