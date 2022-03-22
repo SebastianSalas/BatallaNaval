@@ -47,6 +47,7 @@ public class GUI extends JFrame implements Runnable {
   public static ArrayList<JButton> btActivosM = new ArrayList<JButton>();
   private ImageIcon fondos;
   private GUI_Enemy guiEnemy = new GUI_Enemy();
+  public static  int vida=420;
 
   /**
    * Constructor of GUI class
@@ -483,16 +484,36 @@ public class GUI extends JFrame implements Runnable {
       for (int j = 0; j < 10; j++) {
         for(int y=0;y<10;y++){
           if(guiEnemy.getPosicionX()[i]==j && guiEnemy.getPosiciony()[i]==y){
-            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-            btEnemy[j][y].setIcon(image);
-            btActivosM.add( btEnemy[j][y]);
+            btActivosM.add(btEnemy[j][y]);
+            btEnemy[j][y].addActionListener(escucha);
+            //image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+            //btEnemy[j][y].setIcon(image);
             break;
+          }else{
+            btEnemy[j][y].addActionListener(escucha);
           }
         }
       }
 
     }
 
+  }
+
+  public void cambiarcolor(JButton red){
+
+    ImageIcon f=new ImageIcon("src/resources/bomb.png");
+    red.setIcon(f);
+    red.setEnabled(false);
+
+    if(vida==10){
+      JOptionPane.showMessageDialog(null, "HAS GANADO");
+    }
+  }
+
+  public void colocarFallo(JButton red){
+
+    ImageIcon f=new ImageIcon("src/resources/close.png");
+    red.setIcon(f);
   }
 
 
@@ -506,24 +527,33 @@ public class GUI extends JFrame implements Runnable {
     public void actionPerformed(ActionEvent e) {
       if (e.getSource() == salir) {
         System.exit(0);
-      }
+      }else{
+        if (e.getSource() == ayuda) {
+          JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
+        }else{
+          if (e.getSource() == tableroPc) {
+            BarcosGuardados guardados = new BarcosGuardados();
+            guardados.setcolocados(true);
+            guiEnemy.setVisible(true);
 
-      if (e.getSource() == ayuda) {
-        JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
-      }
-      BarcosGuardados guardados = new BarcosGuardados();
-      if (e.getSource() == tableroPc) {
+          }else{
+            if (e.getSource() == empezar) {
+              JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
+              iniciarCronometro();
+              empezar.setEnabled(false);
+              colocarBarcos();
 
-        guardados.setcolocados(true);
-        guiEnemy.setVisible(true);
+            }else{
+              if((btActivosM.contains((JButton)e.getSource()))){
 
-      }
-      if (e.getSource() == empezar) {
-        JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
-        iniciarCronometro();
-        empezar.setEnabled(false);
-        colocarBarcos();
+                cambiarcolor((JButton)e.getSource());
 
+              }else{
+                colocarFallo((JButton) e.getSource());
+              }
+            }
+          }
+        }
       }
 
     }
