@@ -4,7 +4,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class is used for ...
@@ -28,7 +27,8 @@ public class GUI extends JFrame implements Runnable {
           "\n" +
           "El objetivo es hundir todos los barcos enemigos antes de que el enemigo hunda los tuyos, cada que hagas un" +
           " ataque\n" +
-          "el enemigo lo devolvera para hundir tus barcos";
+          "el enemigo lo devolvera para hundir tus barcos\n" +
+          "\nPara colocar algunas de tus flotas de manera horizontal dale 2 veces al click derecho y 1 para colocarlas vertical";
   private Header headerProject;
   private JLabel tiempo, mBarco, fondo;
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
@@ -218,6 +218,7 @@ public class GUI extends JFrame implements Runnable {
     tableroPc.setFont(new Font("Tahoma", 1, 14));
     tableroPc.setForeground(new Color(255, 255, 255));
     tableroPc.addActionListener(escucha);
+    tableroPc.setEnabled(false);
     constraints.gridx = 2;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -234,6 +235,7 @@ public class GUI extends JFrame implements Runnable {
     empezar.setFont(new Font("Tahoma", 1, 14));
     empezar.setForeground(new Color(255, 255, 255));
     empezar.addActionListener(escucha);
+    empezar.setEnabled(false);
     constraints.gridx = 1;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -281,6 +283,12 @@ public class GUI extends JFrame implements Runnable {
     });
   }
 
+  public void activarEnemigo(){
+    for (int j= 0; j < btEnemy.length; j++) {
+      for (int i = 0; i < btEnemy[j].length; i++) {
+        btEnemy[i][j].setEnabled(true);
+      }}
+  }
   public int cambiarTamBarco(int numero) {
 
     if (p == true) {
@@ -314,6 +322,8 @@ public class GUI extends JFrame implements Runnable {
             if (fra == 0) {
               this.barco = numero - 1;
               f = false;
+              JOptionPane.showMessageDialog(null,"Ya orgaizaste tu base, empieza la batalla!!");
+              empezar.setEnabled(true);
             }
           }
         }
@@ -532,15 +542,15 @@ public class GUI extends JFrame implements Runnable {
   }
 
   public void colocarBarcos() {
-    BarcosGuardados barcosEnemigo = new BarcosGuardados();
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 10; j++) {
-        for (int y = 0; y < 10; y++) {
-          if (guiEnemy.getPosicionX()[i] == j && guiEnemy.getPosiciony()[i] == y) {
-            image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-            btEnemy[j][y].setIcon(image);
-            btActivosM.add(btEnemy[j][y]);
+        for(int y=0;y<10;y++){
+          if(guiEnemy.getPosicionX()[i]==j && guiEnemy.getPosiciony()[i]==y){
+            btActivosM.add( btEnemy[j][y]);
+            btEnemy[j][y].addActionListener(escucha);
             break;
+          }else{
+            btEnemy[j][y].addActionListener(escucha);
           }
         }
       }
@@ -549,6 +559,18 @@ public class GUI extends JFrame implements Runnable {
 
   }
 
+  public void ponerAciertos(JButton red){
+
+    ImageIcon f=new ImageIcon(getClass().getResource("/resources/bomb.png"));
+    red.setIcon(f);
+    red.setEnabled(false);
+  }
+
+  public void ponerFallos(JButton red){
+
+    ImageIcon f=new ImageIcon(getClass().getResource("/resources/close.png"));
+    red.setIcon(f);
+  }
 
   /**
    * inner class that extends an Adapter Class or implements Listeners used by GUI class
@@ -559,24 +581,36 @@ public class GUI extends JFrame implements Runnable {
     public void actionPerformed(ActionEvent e) {
       if (e.getSource() == salir) {
         System.exit(0);
-      }
+      }else{
+        if (e.getSource() == ayuda) {
+          JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
+        }else{
+          BarcosGuardados guardados = new BarcosGuardados();
+          if (e.getSource() == tableroPc) {
 
-      if (e.getSource() == ayuda) {
-        JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
-      }
-      BarcosGuardados guardados = new BarcosGuardados();
-      if (e.getSource() == tableroPc) {
+            guardados.setcolocados(true);
+            guiEnemy.setVisible(true);
 
-        guardados.setcolocados(true);
-        guiEnemy.setVisible(true);
+          }else{
+            if (e.getSource() == empezar) {
+              JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
+              iniciarCronometro();
+              empezar.setEnabled(false);
+              colocarBarcos();
+              activarEnemigo();
+              tableroPc.setEnabled(true);
 
-      }
-      if (e.getSource() == empezar) {
-        JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
-        iniciarCronometro();
-        empezar.setEnabled(false);
-        colocarBarcos();
+            }else{
+              if((btActivosM.contains((JButton) e.getSource()))){
 
+                ponerAciertos((JButton)e.getSource());
+
+              }else{
+                ponerFallos((JButton) e.getSource());
+              }
+            }
+          }
+        }
       }
 
     }
