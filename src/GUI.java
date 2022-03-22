@@ -700,7 +700,8 @@ public class GUI extends JFrame implements Runnable {
           }
 
           if (zonaProhibida == true) {
-            JOptionPane.showMessageDialog(null, "No puedes poner barcos horizontales en esta zona!");
+            JOptionPane.showMessageDialog(null, "No puedes poner barcos horizontales en esta zona!", "Error",
+                    JOptionPane.ERROR_MESSAGE);
           } else {
 
             if (tieneBarcoH == true || tieneBarcoH2 == true) {
