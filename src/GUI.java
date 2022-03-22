@@ -678,45 +678,68 @@ public class GUI extends JFrame implements Runnable {
         }
 
          */
-        boolean tieneBarcoH2;
-        tieneBarcoH2=verificarBarcoHorizontal2(e.getSource());
-        System.out.println(tieneBarcoH2);
-        if (botonMouse == 1 && contadorBoton == 2)
-          if (tieneBarcoH == true || tieneBarcoV == true || tieneBarcoH2==true) {
-            JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        int count = 0;
+        boolean tieneBarcoH2, zonaProhibida = false;
+        tieneBarcoH2 = verificarBarcoHorizontal2(e.getSource());
 
+        if (botonMouse == 1 && contadorBoton == 2) {
+          for (int i = 0; i < btBase.length; i++) {
+            for (int j = 0; j < btBase[i].length; j++) {
+              if (e.getSource() == btBase[i][j]) {
+                //System.out.println("X "+i+"Y"+j);
+                if (i > 10 - barco) {
+                  System.out.println("entrosooooooooooooooooooooo");
+                  zonaProhibida = true;
+                  break;
+                } else {
+                  zonaProhibida = false;
+                  break;
+                }
+              }
+            }
+          }
+
+          if (zonaProhibida == true) {
+            JOptionPane.showMessageDialog(null, "No puedes poner barcos horizontales en esta zona!");
           } else {
-            if (barco == 1) {
-              for (int h = 0; h < 1; h++) {
-                for (int i = 0; i < btBase.length; i++) {
-                  for (int j = 0; j < btBase[i].length; j++) {
-                    if (!(btActivos.contains(btBase[i][j]))) {
-                      if (j < 10) {
-                        if (e.getSource() == btBase[i][j]) {
-                          btActivos.add(btBase[i][j]);
 
+            if (tieneBarcoH == true || tieneBarcoH2 == true) {
+              JOptionPane.showMessageDialog(null, "No puedes poner un barco sobre otro.", "Error",
+                      JOptionPane.ERROR_MESSAGE);
+
+            } else {
+              if (barco == 1) {
+                for (int h = 0; h < 1; h++) {
+                  for (int i = 0; i < btBase.length; i++) {
+                    for (int j = 0; j < btBase[i].length; j++) {
+                      if (!(btActivos.contains(btBase[i][j]))) {
+                        if (j < 10) {
+                          if (e.getSource() == btBase[i][j]) {
+                            btActivos.add(btBase[i][j]);
+
+                          }
                         }
                       }
                     }
                   }
                 }
-              }
-              cambiarTamBarco(barco);
-            } else {
-              for (int h = 0; h < barco - 1; h++) {
-                for (int i = 0; i < btBase.length; i++) {
-                  for (int j = 0; j < btBase[i].length; j++) {
-                    if (i <= 10 - (barco )) {
-                      colocarBarcoHorizontal(e.getSource(), i, j, h);
+                cambiarTamBarco(barco);
+              } else {
+                for (int h = 0; h < barco - 1; h++) {
+                  for (int i = 0; i < btBase.length; i++) {
+                    for (int j = 0; j < btBase[i].length; j++) {
+                      if (i <= 10 - (barco)) {
+                        colocarBarcoHorizontal(e.getSource(), i, j, h);
+                      }
                     }
                   }
                 }
+                cambiarTamBarco(barco);
               }
-              cambiarTamBarco(barco);
-            }
 
+            }
           }
+        }
       }
       if (botonMouse == 3) {
         contadorBoton = e.getClickCount();
@@ -738,8 +761,9 @@ public class GUI extends JFrame implements Runnable {
     @Override
     public void mouseEntered(MouseEvent e) {
 
-      System.out.println(contadorBoton);
-      if (botonMouse != 3 || contadorBoton == 1) {
+      System.out.println("Botonmouse: "+botonMouse+" Contador: "+contadorBoton);
+
+      if ((botonMouse != 3 && (contadorBoton == 1 || contadorBoton==0)) || (botonMouse==3 && contadorBoton==1)) {
         if (barco == 0) {
           for (int h = 0; h < 1; h++) {
             for (int i = 0; i < btBase.length; i++) {
@@ -791,7 +815,7 @@ public class GUI extends JFrame implements Runnable {
             }
           }
         }
-      } else {
+      } else if((botonMouse==1 || botonMouse==3)&& contadorBoton==2){
         cambiarBarcoAHorizontalEntered(e.getSource());
         flag2 = 0;
       }
@@ -822,7 +846,7 @@ public class GUI extends JFrame implements Runnable {
         }
       }
 
-      if (botonMouse != 3 || contadorBoton == 1) {
+      if ((botonMouse != 3 && (contadorBoton == 1 || contadorBoton==0)) || (botonMouse==3 && contadorBoton==1)) {
 
         if (barco == 0) {
           for (int h = 0; h < 1; h++) {
@@ -876,12 +900,8 @@ public class GUI extends JFrame implements Runnable {
           }
         }
 
-        for (JButton bt :
-                btActivos) {
-          image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-          bt.setIcon(image);
-        }
-      } else {
+
+      } else if((botonMouse==1 || botonMouse==3)&& contadorBoton==2){
         cambiarBarcoAHorizontalExited(e.getSource());
         for (int h = 0; h < barco; h++) {
           for (int i = 0; i < btBase.length; i++) {
@@ -901,7 +921,11 @@ public class GUI extends JFrame implements Runnable {
         }
 
       }
-
+      for (JButton bt :
+              btActivos) {
+        image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
+        bt.setIcon(image);
+      }
     }
 
     private class Escucha3 implements MouseMotionListener {
