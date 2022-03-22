@@ -4,7 +4,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * This class is used for ...
@@ -28,7 +27,8 @@ public class GUI extends JFrame implements Runnable {
           "\n" +
           "El objetivo es hundir todos los barcos enemigos antes de que el enemigo hunda los tuyos, cada que hagas un" +
           " ataque\n" +
-          "el enemigo lo devolvera para hundir tus barcos";
+          "el enemigo lo devolvera para hundir tus barcos\n" +
+          "\nPara poner tu barco horizontalmente da 2 veces click derecho y 1 para que sea verticalmente";
   private Header headerProject;
   private JLabel tiempo, mBarco, fondo;
   private JPanel panelBarcos, panelMiTablero, panelTableroPc, base, enemigo;
@@ -219,6 +219,7 @@ public class GUI extends JFrame implements Runnable {
     tableroPc.setFont(new Font("Tahoma", 1, 14));
     tableroPc.setForeground(new Color(255, 255, 255));
     tableroPc.addActionListener(escucha);
+    tableroPc.setEnabled(false);
     constraints.gridx = 2;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -235,6 +236,7 @@ public class GUI extends JFrame implements Runnable {
     empezar.setFont(new Font("Tahoma", 1, 14));
     empezar.setForeground(new Color(255, 255, 255));
     empezar.addActionListener(escucha);
+    empezar.setEnabled(false);
     constraints.gridx = 1;
     constraints.gridy = 3;
     constraints.gridwidth = 1;
@@ -281,6 +283,14 @@ public class GUI extends JFrame implements Runnable {
       GUI miProjectGUI = new GUI();
     });
   }
+  public void activarBase(){
+    for (int j= 0; j < btBase.length; j++) {
+      for (int i = 0; i < btBase[j].length; i++) {
+
+        btEnemy[i][j].setEnabled(true);
+
+      }}
+  }
 
   public int cambiarTamBarco(int numero) {
 
@@ -315,6 +325,9 @@ public class GUI extends JFrame implements Runnable {
             if (fra == 0) {
               this.barco = numero - 1;
               f = false;
+              activarBase();
+              JOptionPane.showMessageDialog(null,"Ya organizaste tu base, empieza el juego!!");
+              empezar.setEnabled(true);
             }
           }
         }
@@ -479,15 +492,12 @@ public class GUI extends JFrame implements Runnable {
   }
 
   public void colocarBarcos() {
-    BarcosGuardados barcosEnemigo = new BarcosGuardados();
     for (int i = 0; i < 20; i++) {
       for (int j = 0; j < 10; j++) {
         for(int y=0;y<10;y++){
           if(guiEnemy.getPosicionX()[i]==j && guiEnemy.getPosiciony()[i]==y){
             btActivosM.add(btEnemy[j][y]);
             btEnemy[j][y].addActionListener(escucha);
-            //image = new ImageIcon(getClass().getResource("/resources/battleship.png"));
-            //btEnemy[j][y].setIcon(image);
             break;
           }else{
             btEnemy[j][y].addActionListener(escucha);
@@ -499,7 +509,7 @@ public class GUI extends JFrame implements Runnable {
 
   }
 
-  public void cambiarcolor(JButton red){
+  public void ponerAcierto(JButton red){
 
     ImageIcon f=new ImageIcon("src/resources/bomb.png");
     red.setIcon(f);
@@ -510,7 +520,7 @@ public class GUI extends JFrame implements Runnable {
     }
   }
 
-  public void colocarFallo(JButton red){
+  public void ponerFallo(JButton red){
 
     ImageIcon f=new ImageIcon("src/resources/close.png");
     red.setIcon(f);
@@ -541,15 +551,16 @@ public class GUI extends JFrame implements Runnable {
               JOptionPane.showMessageDialog(null, "Colocando barcos enemigos...", "Cargando", JOptionPane.WARNING_MESSAGE);
               iniciarCronometro();
               empezar.setEnabled(false);
+              tableroPc.setEnabled(true);
               colocarBarcos();
 
             }else{
               if((btActivosM.contains((JButton)e.getSource()))){
 
-                cambiarcolor((JButton)e.getSource());
+                ponerAcierto((JButton)e.getSource());
 
               }else{
-                colocarFallo((JButton) e.getSource());
+                ponerFallo((JButton) e.getSource());
               }
             }
           }
@@ -628,7 +639,6 @@ public class GUI extends JFrame implements Runnable {
         }
       } else {
         contadorBoton= e.getClickCount();
-        System.out.println("xd");
       }
     }
 
