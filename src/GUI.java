@@ -707,7 +707,7 @@ public class GUI extends JFrame implements Runnable {
               for (int h = 0; h < barco - 1; h++) {
                 for (int i = 0; i < btBase.length; i++) {
                   for (int j = 0; j < btBase[i].length; j++) {
-                    if (i < 10 - (barco )) {
+                    if (i <= 10 - (barco )) {
                       colocarBarcoHorizontal(e.getSource(), i, j, h);
                     }
                   }
